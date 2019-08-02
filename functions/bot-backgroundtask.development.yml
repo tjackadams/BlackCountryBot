@@ -1,0 +1,6 @@
+environment:
+    connectionString: "Server=192.168.0.29,5433;Database=BlackCountry;User Id=sa;Password=Jasper2854"
+    consumerKey: "WdQKF3K849GQJx8WquhUMEh2p"
+    consumerSecret: "Tf0y9ZQ60icPji3CZFXwp2trbZgfwtPoGagay6P5iUBs4Z6Knh"
+    userAccessToken: "1161328078234312704-VzLLbPlQ2XGmq2AS7m6BKuPN6gAYFR"
+    userAccessSecret: "Kda88rKs4hQlH5VpJAyGrdjeRggVNXGVX8aYUWzW3oPh0"

@@ -1,0 +1,10 @@
+# This helm values file defines app-based settings
+# Charts use those values, so this file **MUST** be included in all chart releases
+
+app: # app global settings
+  name: "my-eblackcountry" # Override for custom app name
+  ingress: # ingress related settings
+    entries:
+      bot: bot-api # ingress entry for web mvc
+  svc:
+    bot: bot # service name for web mvc

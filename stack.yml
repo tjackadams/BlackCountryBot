@@ -1,0 +1,15 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://192.168.0.70:31112
+functions:
+  blackcountrybot:
+    lang: csharp-armhf
+    handler: ./src/BlackCountryBot.Tweet
+    image: tjackadams/blackcountrybot:latest
+    environment:
+        read_timeout: 30s
+        write_timeout: 30s
+        upstream_timeout: 25s        
+    secrets:
+    - blackcountrybot-secrets

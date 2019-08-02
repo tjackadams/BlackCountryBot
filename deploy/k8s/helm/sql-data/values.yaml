@@ -1,0 +1,18 @@
+replicaCount: 1
+
+image:
+  repository: arm32v7/postgres
+  tag: 12
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 5432
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

@@ -1,0 +1,16 @@
+<Project>
+  <PropertyGroup>
+    <WarnAsError />
+    <LangVersion>preview</LangVersion>
+    <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+
+    <!-- Generate lock files on restore -->
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+
+  </PropertyGroup>
+
+</Project>
