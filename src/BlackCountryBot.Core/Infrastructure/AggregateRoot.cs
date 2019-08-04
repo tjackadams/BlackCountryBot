@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Core.Infrastructure
+namespace BlackCountryBot.Core.Infrastructure
 {
     public abstract class AggregateRoot : Entity, IAggregateRoot
     {

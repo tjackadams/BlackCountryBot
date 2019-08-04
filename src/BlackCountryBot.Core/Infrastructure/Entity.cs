@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Core.Infrastructure
+namespace BlackCountryBot.Core.Infrastructure
 {
     public abstract class Entity : IEntity, IEquatable<Entity>
     {

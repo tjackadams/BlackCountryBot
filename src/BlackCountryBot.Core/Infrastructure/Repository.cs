@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Core.Infrastructure
+namespace BlackCountryBot.Core.Infrastructure
 {
     public abstract class Repository<TDbContext, TEntity> : IRepository<TEntity>
         where TEntity : class, IEntity

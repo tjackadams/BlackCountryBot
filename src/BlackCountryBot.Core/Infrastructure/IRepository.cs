@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Core.Infrastructure
+namespace BlackCountryBot.Core.Infrastructure
 {
     public interface IRepository<TEntity>
         where TEntity : class, IEntity

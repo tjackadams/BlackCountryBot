@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Core.Infrastructure
+namespace BlackCountryBot.Core.Infrastructure
 {
     public interface IDbContextProvider<out TDbContext>
         where TDbContext : DbContext

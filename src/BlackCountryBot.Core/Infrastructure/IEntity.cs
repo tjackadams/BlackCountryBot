@@ -1,4 +1,4 @@
-﻿namespace Core.Infrastructure
+﻿namespace BlackCountryBot.Core.Infrastructure
 {
     public interface IEntity
     {
