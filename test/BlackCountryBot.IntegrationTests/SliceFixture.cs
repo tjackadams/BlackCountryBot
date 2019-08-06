@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using BlackCountryBot.Core.Infrastructure;
 using BlackCountryBot.Web;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Respawn;
@@ -29,11 +30,17 @@ namespace BlackCountryBot.IntegrationTests
             ServiceProvider provider = services.BuildServiceProvider();
             _scopeFactory = provider.GetRequiredService<IServiceScopeFactory>();
             _checkpoint = new Checkpoint();
+
+            using (IServiceScope scope = _scopeFactory.CreateScope())
+            {
+                BlackCountryContext dbContext = scope.ServiceProvider.GetService<BlackCountryContext>();
+                dbContext.Database.Migrate();
+            }
         }
 
         public static Task ResetCheckpoint()
         {
-            return _checkpoint.Reset(_configuration.GetConnectionString("DefaultConnection"));
+            return _checkpoint.Reset(_configuration["ConnectionString"]);
         }
 
         public static Task<TResponse> SendAsync<TResponse>(IRequest<TResponse> request)

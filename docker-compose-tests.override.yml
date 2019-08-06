@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  blackcountrybot-web-test:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionString=Server=sql-data-test;Database=BlackCountry;User Id=sa;Password=DAtgfebU8pm3YCNt
+    ports:
+      - "5000:80"
+    entrypoint:
+      - dotnet
+      - test
+      - --logger
+      - trx;LogFileName=/tests/blackcountrybot-test-results.xml
+
+  sql-data-test:
+     environment:
+      SA_PASSWORD: "DAtgfebU8pm3YCNt"
+      ACCEPT_EULA: "Y"

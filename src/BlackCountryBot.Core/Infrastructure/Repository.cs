@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace BlackCountryBot.Core.Infrastructure
 {
-    public abstract class Repository<TDbContext, TEntity> : IRepository<TEntity>
+    public class Repository<TDbContext, TEntity> : IRepository<TEntity>
         where TEntity : class, IEntity
         where TDbContext : DbContext
     {
         private readonly IDbContextProvider<TDbContext> _dbContextProvider;
 
-        protected Repository(IDbContextProvider<TDbContext> dbContextProvider)
+        public Repository(IDbContextProvider<TDbContext> dbContextProvider)
         {
             _dbContextProvider = dbContextProvider;
         }

@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  blackcountrybot-web-test:
+    image: ${DOCKER_REGISTRY:-blackcountrybot}blackcountrybot-web-test:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: testrunner
+    depends_on:
+      - sql-data-test
+    volumes: 
+      - ${BUILD_ARTIFACTSTAGINGDIRECTORY:-./tests-results/}:/tests
+
+  sql-data-test:
+    image: mcr.microsoft.com/mssql/server:2017-latest

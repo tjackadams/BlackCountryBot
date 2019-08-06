@@ -6,6 +6,7 @@ using BlackCountryBot.Core.Models.Phrases;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 
@@ -29,7 +30,7 @@ namespace BlackCountryBot.Core.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Entity>(e =>
+            modelBuilder.Entity<Phrase>(e =>
             {
                 e
                 .Property(p => p.Id)
@@ -37,10 +38,7 @@ namespace BlackCountryBot.Core.Infrastructure
 
                 e
                 .HasKey(p => p.Id);
-            });
 
-            modelBuilder.Entity<Phrase>(e =>
-            {
                 e
                 .Property(p => p.Original)
                 .HasMaxLength(100)
@@ -109,6 +107,17 @@ namespace BlackCountryBot.Core.Infrastructure
             }
 
             return result;
+        }
+    }
+
+    public class BlackCountryContextFactory : IDesignTimeDbContextFactory<BlackCountryContext>
+    {
+        public BlackCountryContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<BlackCountryContext>();
+            optionsBuilder.UseSqlServer("Data Source=localhost;Integrated Security=True");
+
+            return new BlackCountryContext(optionsBuilder.Options, null, NullLogger<BlackCountryContext>.Instance);
         }
     }
 }

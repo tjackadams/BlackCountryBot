@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using BlackCountryBot.Core.Infrastructure;
+using BlackCountryBot.Core.Models.Phrases;
 using DryIoc;
 using DryIoc.Microsoft.DependencyInjection;
 using MediatR;
@@ -32,12 +33,13 @@ namespace BlackCountryBot.Web
         {
             services.AddDbContext<BlackCountryContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                    options.UseSqlServer(Configuration["ConnectionString"]);               
             });
 
             services.AddAutoMapper(typeof(Startup));
 
-            services.AddMediatR(typeof(Startup));
+            services.AddMediatR(typeof(Startup).Assembly);
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
 
             services
                 .AddLogging(logging => logging.AddConsole())
@@ -50,6 +52,10 @@ namespace BlackCountryBot.Web
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            services.AddScoped(typeof(IDbContextProvider<>), typeof(DbContextProvider<>));
+            services.AddScoped<IRepository<Phrase>, Repository<BlackCountryContext, Phrase>>(
+                sp => new Repository<BlackCountryContext, Phrase>(sp.GetRequiredService<IDbContextProvider<BlackCountryContext>>()));
 
             return new Container(rules =>
                     // optional: Enables property injection for Controllers
@@ -72,11 +78,8 @@ namespace BlackCountryBot.Web
             else
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
@@ -101,9 +104,8 @@ namespace BlackCountryBot.Web
 
     public class CompositionRoot
     {
-        public CompositionRoot(IRegistrator r)
+        public CompositionRoot(IRegistrator _)
         {
-            r.RegisterMany(new[] { typeof(IMediator).GetAssembly(), typeof(Startup).GetAssembly() }, Registrator.Interfaces);
         }
     }
 

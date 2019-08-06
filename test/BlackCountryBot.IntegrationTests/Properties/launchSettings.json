@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "BlackCountryBot.IntegrationTests": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

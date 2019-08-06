@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190805171153_Initial.cs" />
+    <Compile Remove="Migrations\20190805171153_Initial.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Commands\" />
   </ItemGroup>
 
