@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BlackCountryBot.Core.Migrations
 {
-    [DbContext(typeof(BlackCountryContext))]
+    [DbContext(typeof(BlackCountryDbContext))]
     [Migration("20190805171238_Initial")]
     partial class Initial
     {

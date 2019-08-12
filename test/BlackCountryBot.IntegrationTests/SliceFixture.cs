@@ -33,7 +33,7 @@ namespace BlackCountryBot.IntegrationTests
 
             using (IServiceScope scope = _scopeFactory.CreateScope())
             {
-                BlackCountryContext dbContext = scope.ServiceProvider.GetService<BlackCountryContext>();
+                BlackCountryDbContext dbContext = scope.ServiceProvider.GetService<BlackCountryDbContext>();
                 dbContext.Database.Migrate();
             }
         }
@@ -56,7 +56,7 @@ namespace BlackCountryBot.IntegrationTests
         {
             using (IServiceScope scope = _scopeFactory.CreateScope())
             {
-                BlackCountryContext dbContext = scope.ServiceProvider.GetService<BlackCountryContext>();
+                BlackCountryDbContext dbContext = scope.ServiceProvider.GetService<BlackCountryDbContext>();
 
                 T result = await action(scope.ServiceProvider).ConfigureAwait(false);
 
@@ -70,9 +70,9 @@ namespace BlackCountryBot.IntegrationTests
             return ExecuteDbContextAsync(db => db.Set<T>().FindAsync(id));
         }
 
-        public static Task<T> ExecuteDbContextAsync<T>(Func<BlackCountryContext, Task<T>> action)
+        public static Task<T> ExecuteDbContextAsync<T>(Func<BlackCountryDbContext, Task<T>> action)
         {
-            return ExecuteScopeAsync(sp => action(sp.GetService<BlackCountryContext>()));
+            return ExecuteScopeAsync(sp => action(sp.GetService<BlackCountryDbContext>()));
         }
     }
 }

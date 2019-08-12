@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using BlackCountryBot.Core.Infrastructure;
 using BlackCountryBot.Core.Models.Phrases;

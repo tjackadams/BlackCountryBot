@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using BlackCountryBot.Web.Features.Phrases;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,13 @@ namespace BlackCountryBot.Web.Controllers
         public async Task<IActionResult> GetAll()
         {
             return new JsonResult(await _mediator.Send(new GetAll.Query()));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([Required][FromBody]Create.Command command)
+        {
+            await _mediator.Send(command);
+            return NoContent();
         }
     }
 }

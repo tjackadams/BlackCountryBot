@@ -13,16 +13,22 @@ namespace BlackCountryBot.Web
         public static readonly string AppName = "BlackCountryBot.Web";
         public static int Main(string[] args)
         {
-            var host = CreateWebHostBuilder(args).Build();
-            using(var scope = host.Services.CreateScope())
+            IWebHost host = CreateWebHostBuilder(args).Build();
+            using (IServiceScope scope = host.Services.CreateScope())
             {
-                var services = scope.ServiceProvider;
-                var logger = services.GetRequiredService<ILogger<Program>>();
+                IServiceProvider services = scope.ServiceProvider;
+                ILogger<Program> logger = services.GetRequiredService<ILogger<Program>>();
 
                 try
                 {
                     logger.LogInformation("Applying migrations ({ApplicationContext})...", AppName);
-                    host.MigrateDbContext<BlackCountryContext>((_, __) => { });
+                    host.MigrateDbContext<BlackCountryDbContext>((context, sp) =>
+                    {
+                        ILogger<BlackCountryDbContextSeed> seedLogger = sp.GetRequiredService<ILogger<BlackCountryDbContextSeed>>();
+                        new BlackCountryDbContextSeed()
+                        .SeedAsync(context, seedLogger)
+                        .Wait();
+                    });
 
                     logger.LogInformation("Starting web host ({ApplicationContext})...", AppName);
                     host.Run();

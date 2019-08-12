@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BlackCountryBot.Core.Infrastructure;
 using BlackCountryBot.Core.Models.Phrases;
+using BlackCountryBot.Web.Hubs;
 using DryIoc;
 using DryIoc.Microsoft.DependencyInjection;
 using MediatR;
@@ -31,7 +32,7 @@ namespace BlackCountryBot.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<BlackCountryContext>(options =>
+            services.AddDbContext<BlackCountryDbContext>(options =>
             {
                     options.UseSqlServer(Configuration["ConnectionString"]);               
             });
@@ -41,8 +42,10 @@ namespace BlackCountryBot.Web
             services.AddMediatR(typeof(Startup).Assembly);
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
 
+            services.AddSignalR();
+
             services
-                .AddLogging(logging => logging.AddConsole())
+                .AddLogging(logging => logging.AddConsole())   
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddControllersAsServices();
@@ -54,8 +57,8 @@ namespace BlackCountryBot.Web
             });
 
             services.AddScoped(typeof(IDbContextProvider<>), typeof(DbContextProvider<>));
-            services.AddScoped<IRepository<Phrase>, Repository<BlackCountryContext, Phrase>>(
-                sp => new Repository<BlackCountryContext, Phrase>(sp.GetRequiredService<IDbContextProvider<BlackCountryContext>>()));
+            services.AddScoped<IRepository<Phrase>, Repository<BlackCountryDbContext, Phrase>>(
+                sp => new Repository<BlackCountryDbContext, Phrase>(sp.GetRequiredService<IDbContextProvider<BlackCountryDbContext>>()));
 
             return new Container(rules =>
                     // optional: Enables property injection for Controllers
@@ -88,6 +91,11 @@ namespace BlackCountryBot.Web
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
+            });
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<PhrasesHub>("/hub/phrases");
             });
 
             app.UseSpa(spa =>

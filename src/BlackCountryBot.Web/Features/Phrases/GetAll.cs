@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,7 +24,11 @@ namespace BlackCountryBot.Web.Features.Phrases
             public List<PhraseViewModel> Phrases { get; set; }
             public class PhraseViewModel
             {
-
+                public int PhraseId { get; set; }
+                public string Original { get; set; }
+                public string Translation { get; set; }
+                public DateTimeOffset? LastTweetTime { get; set; }
+                public int NumberOfTweets { get; set; }
             }
         }
 
@@ -31,7 +36,8 @@ namespace BlackCountryBot.Web.Features.Phrases
         {
             public MappingProfile()
             {
-                CreateMap<Phrase, Result.PhraseViewModel>();
+                CreateMap<Phrase, Result.PhraseViewModel>()
+                    .ForMember(dest => dest.PhraseId, opt => opt.MapFrom(src => src.Id));
             }
         }
 

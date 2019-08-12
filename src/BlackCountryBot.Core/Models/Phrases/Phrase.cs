@@ -1,11 +1,15 @@
 ﻿using System;
 using BlackCountryBot.Core.Infrastructure;
+using MediatR;
 
 namespace BlackCountryBot.Core.Models.Phrases
 {
     public class Phrase : AggregateRoot
     {
-        private Phrase() { }
+        private Phrase()
+        {
+            AddDomainEvent(new PhraseCreatedNotification());
+        }
 
         public static Phrase Create(string original, string translation)
         {
@@ -27,4 +31,10 @@ namespace BlackCountryBot.Core.Models.Phrases
         public DateTimeOffset CreatedTime { get; private set; }
         public int NumberOfTweets { get; private set; }
     }
+
+    public class PhraseCreatedNotification : INotification
+    {
+
+    }
+
 }

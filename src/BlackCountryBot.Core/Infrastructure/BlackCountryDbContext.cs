@@ -12,18 +12,18 @@ using Microsoft.Extensions.Logging.Abstractions;
 
 namespace BlackCountryBot.Core.Infrastructure
 {
-    public class BlackCountryContext : DbContext
+    public class BlackCountryDbContext : DbContext
     {
         private readonly IMediator _mediator;
 
-        public ILogger<BlackCountryContext> Logger { get; private set; }
+        public ILogger<BlackCountryDbContext> Logger { get; private set; }
 
-        public BlackCountryContext(DbContextOptions<BlackCountryContext> options, IMediator mediator, ILogger<BlackCountryContext> logger)
+        public BlackCountryDbContext(DbContextOptions<BlackCountryDbContext> options, IMediator mediator, ILogger<BlackCountryDbContext> logger)
             : base(options)
         {
             _mediator = mediator;
 
-            Logger = logger ?? NullLogger<BlackCountryContext>.Instance;
+            Logger = logger ?? NullLogger<BlackCountryDbContext>.Instance;
         }
 
         public DbSet<Phrase> Phrases { get; set; }
@@ -110,14 +110,14 @@ namespace BlackCountryBot.Core.Infrastructure
         }
     }
 
-    public class BlackCountryContextFactory : IDesignTimeDbContextFactory<BlackCountryContext>
+    public class BlackCountryContextFactory : IDesignTimeDbContextFactory<BlackCountryDbContext>
     {
-        public BlackCountryContext CreateDbContext(string[] args)
+        public BlackCountryDbContext CreateDbContext(string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<BlackCountryContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<BlackCountryDbContext>();
             optionsBuilder.UseSqlServer("Data Source=localhost;Integrated Security=True");
 
-            return new BlackCountryContext(optionsBuilder.Options, null, NullLogger<BlackCountryContext>.Instance);
+            return new BlackCountryDbContext(optionsBuilder.Options, null, NullLogger<BlackCountryDbContext>.Instance);
         }
     }
 }

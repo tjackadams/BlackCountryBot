@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BlackCountryBot.Core.Migrations
 {
-    [DbContext(typeof(BlackCountryContext))]
+    [DbContext(typeof(BlackCountryDbContext))]
     partial class BlackCountryContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
