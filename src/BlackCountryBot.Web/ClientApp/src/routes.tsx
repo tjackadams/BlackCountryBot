@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Route, Switch } from "react-router-dom";
 
-import IndexPage from "./pages/index";
+import { IndexPage } from "./pages/index";
 
 const Routes: React.SFC = () => (
   <Switch>

@@ -4,9 +4,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BlackCountryBot.Core.Infrastructure;
 using BlackCountryBot.Core.Models.Phrases;
+using BlackCountryBot.Web.Features.Phrases;
 using BlackCountryBot.Web.Hubs;
 using DryIoc;
 using DryIoc.Microsoft.DependencyInjection;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,21 +36,23 @@ namespace BlackCountryBot.Web
         {
             services.AddDbContext<BlackCountryDbContext>(options =>
             {
-                    options.UseSqlServer(Configuration["ConnectionString"]);               
+                options.UseSqlServer(Configuration["ConnectionString"]);
             });
 
             services.AddAutoMapper(typeof(Startup));
 
             services.AddMediatR(typeof(Startup).Assembly);
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(CreateValidationBehavior<,>));
 
             services.AddSignalR();
 
             services
-                .AddLogging(logging => logging.AddConsole())   
+                .AddLogging(logging => logging.AddConsole())
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddControllersAsServices();
+                .AddControllersAsServices()
+                .AddFluentValidation(o => o.RegisterValidatorsFromAssemblyContaining<Startup>());
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -59,6 +63,7 @@ namespace BlackCountryBot.Web
             services.AddScoped(typeof(IDbContextProvider<>), typeof(DbContextProvider<>));
             services.AddScoped<IRepository<Phrase>, Repository<BlackCountryDbContext, Phrase>>(
                 sp => new Repository<BlackCountryDbContext, Phrase>(sp.GetRequiredService<IDbContextProvider<BlackCountryDbContext>>()));
+
 
             return new Container(rules =>
                     // optional: Enables property injection for Controllers
@@ -112,8 +117,9 @@ namespace BlackCountryBot.Web
 
     public class CompositionRoot
     {
-        public CompositionRoot(IRegistrator _)
+        public CompositionRoot(IRegistrator r)
         {
+            r.RegisterDelegate<ServiceFactory>(x => x.Resolve);
         }
     }
 

@@ -3,22 +3,15 @@ import * as React from "react";
 import {
   DefaultPalette,
   Image,
-  IImageProps,
   ImageFit,
   Stack,
-  IStackStyles,
-  IStackTokens,
   Text
 } from "office-ui-fabric-react";
 
 import flag from "./Black_Country_Flag.svg";
 
-export interface IHeaderProps {
-  title: string;
-}
-
-export const Header: React.FC<IHeaderProps> = props => {
-  const stackStyles: IStackStyles = {
+export const Header = props => {
+  const stackStyles = {
     root: [
       {
         background: DefaultPalette.accent,
@@ -29,14 +22,14 @@ export const Header: React.FC<IHeaderProps> = props => {
       }
     ],
     inner: {
-      overflow: "visible" as "hidden" | "visible"
+      overflow: "visible"
     }
   };
-  const stackTokens: IStackTokens = {
+  const stackTokens = {
     childrenGap: 0 + " " + 10,
     padding: "0px 10px 0px 10px"
   };
-  const imageProps: Partial<IImageProps> = {
+  const imageProps = {
     imageFit: ImageFit.contain
   };
   return (

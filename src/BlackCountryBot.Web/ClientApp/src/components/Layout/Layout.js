@@ -1,16 +1,11 @@
-import * as React from "react";
+import React from "react";
 
-import {
-  DefaultPalette,
-  Stack,
-  IStackStyles,
-  IStackTokens
-} from "office-ui-fabric-react";
+import { DefaultPalette, Stack } from "office-ui-fabric-react";
 
 import { Header } from "../Header";
 
-export const Layout: React.FC = props => {
-  const stackStyles: IStackStyles = {
+export const Layout = props => {
+  const stackStyles = {
     root: [
       {
         background: DefaultPalette.white,
@@ -21,10 +16,10 @@ export const Layout: React.FC = props => {
       }
     ],
     inner: {
-      overflow: "visible" as "hidden" | "visible"
+      overflow: "visible"
     }
   };
-  const stackTokens: IStackTokens = {
+  const stackTokens = {
     childrenGap: 0 + " " + 10,
     padding: "10px 10px 10px 10px"
   };

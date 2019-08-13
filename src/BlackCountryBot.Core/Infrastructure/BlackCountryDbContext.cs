@@ -65,7 +65,7 @@ namespace BlackCountryBot.Core.Infrastructure
 
         private async Task TriggerDomainEventsAsync(EntityEntry entry, CancellationToken cancellationToken = default)
         {
-            if (entry is IAggregateRoot agg)
+            if (entry.Entity is IAggregateRoot agg)
             {
                 IEnumerable<INotification> domainEvents = agg.GetDomainEvents();
 

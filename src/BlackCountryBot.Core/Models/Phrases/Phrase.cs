@@ -8,7 +8,6 @@ namespace BlackCountryBot.Core.Models.Phrases
     {
         private Phrase()
         {
-            AddDomainEvent(new PhraseCreatedNotification());
         }
 
         public static Phrase Create(string original, string translation)
@@ -33,6 +32,11 @@ namespace BlackCountryBot.Core.Models.Phrases
     }
 
     public class PhraseCreatedNotification : INotification
+    {
+
+    }
+
+    public class PhraseDeletedNotification : INotification
     {
 
     }

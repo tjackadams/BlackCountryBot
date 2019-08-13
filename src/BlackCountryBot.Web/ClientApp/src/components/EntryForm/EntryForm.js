@@ -1,21 +1,15 @@
-import * as React from "react";
+import React from "react";
 
 import { Formik, Field } from "formik";
-import {
-  CompoundButton,
-  IButtonStyles,
-  Stack,
-  IStackProps,
-  DefaultButton
-} from "office-ui-fabric-react";
+import { CompoundButton, Stack, DefaultButton } from "office-ui-fabric-react";
 import { FormikTextField } from "formik-office-ui-fabric-react";
 
 class Values {
   phrase = "";
   translation = "";
 
-  static validate(values: Values) {
-    const errors: any = {};
+  static validate(values) {
+    const errors = {};
 
     if (!values.phrase) {
       errors.phrase = "black country phrase is required";
@@ -29,15 +23,11 @@ class Values {
   }
 }
 
-export interface IEntryFormProps {
-  onClose(): any;
-}
-
-export const EntryForm: React.FC<IEntryFormProps> = props => {
-  const columnProps: Partial<IStackProps> = {
+export const EntryForm = props => {
+  const columnProps = {
     tokens: { childrenGap: 20 }
   };
-  const buttonStyle: IButtonStyles = {
+  const buttonStyle = {
     root: {
       float: "right"
     }
@@ -46,13 +36,19 @@ export const EntryForm: React.FC<IEntryFormProps> = props => {
   const _onClose = () => {
     props.onClose();
   };
+
+  console.log("form props", props);
   return (
     <Formik
       initialValues={new Values()}
       validate={Values.validate}
       onSubmit={(values, actions) => {
-        alert(JSON.stringify(values, null, 2));
+        props.onSubmit({
+          original: values.phrase,
+          translation: values.translation
+        });
         actions.setSubmitting(false);
+        props.onClose();
       }}
       render={({ ...props }) => (
         <div>
