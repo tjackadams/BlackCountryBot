@@ -341,3 +341,8 @@ healthchecksdb
 
 # Custom
 /src/BlackCountryBot.Web/ClientApp/build
+/src/template
+/src/build/blackcountrybot-worker
+/src/blackcountrybot-worker/libs
+/template
+/blackcountrybot.Development.yml

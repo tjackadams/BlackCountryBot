@@ -7,7 +7,7 @@ using static BlackCountryBot.IntegrationTests.SliceFixture;
 
 namespace BlackCountryBot.IntegrationTests.Features.Phrases
 {
-    public class CreateTests : IntegrationTestBase
+    public class Create_Tests : IntegrationTestBase
     {
         [Fact]
         public async Task CreateCommand_Should_CreatePhrase()
@@ -20,10 +20,10 @@ namespace BlackCountryBot.IntegrationTests.Features.Phrases
             };
 
             // act
-            int phraseId = await SendAsync(cmd);
+            var sut = await SendAsync(cmd);
 
             // assert
-            Phrase phrase = await FindAsync<Phrase>(phraseId);
+            Phrase phrase = await FindAsync<Phrase>(sut.PhraseId);
 
             phrase.ShouldNotBeNull();
             phrase.Original.ShouldBe(cmd.Original);

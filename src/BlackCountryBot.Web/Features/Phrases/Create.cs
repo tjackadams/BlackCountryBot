@@ -11,13 +11,18 @@ namespace BlackCountryBot.Web.Features.Phrases
 {
     public class Create
     {
-        public class Command : IRequest<int>
+        public class Command : IRequest<Result>
         {
             public string Original { get; set; }
             public string Translation { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, int>
+        public class Result
+        {
+            public int PhraseId { get; set; }
+        }
+
+        public class Handler : IRequestHandler<Command, Result>
         {
             private readonly IMediator _mediator;
             private readonly IRepository<Phrase> _repository;
@@ -26,7 +31,7 @@ namespace BlackCountryBot.Web.Features.Phrases
                 _mediator = mediator;
                 _repository = repository;
             }
-            public async Task<int> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
             {
                 var phrase = Phrase.Create(request.Original, request.Translation);
 
@@ -34,13 +39,17 @@ namespace BlackCountryBot.Web.Features.Phrases
 
                 await _mediator.Publish(new PhraseCreatedNotification(), cancellationToken);
 
-                return phrase.Id;
+                return new Result
+                {
+                    PhraseId = phrase.Id
+                };
             }
         }
     }
 
     public class CreateValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : Create.Command
+        where TResponse : Create.Result
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
 

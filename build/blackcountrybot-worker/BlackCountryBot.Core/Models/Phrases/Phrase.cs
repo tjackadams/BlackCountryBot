@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using BlackCountryBot.Core.Infrastructure;
 using MediatR;
 
@@ -29,6 +30,13 @@ namespace BlackCountryBot.Core.Models.Phrases
         public DateTimeOffset? LastTweetTime { get; private set; }
         public DateTimeOffset CreatedTime { get; private set; }
         public int NumberOfTweets { get; private set; }
+
+        public string Tweet()
+        {
+            LastTweetTime = DateTimeOffset.Now;
+            NumberOfTweets++;
+            return $"Black Country: {Original} \n\n Translation: {Translation} \n\n #BlackCountry";
+        }
     }
 
     public class PhraseCreatedNotification : INotification

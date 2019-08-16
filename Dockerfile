@@ -1,4 +1,8 @@
 from mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
+
+# Supress collection of data.
+ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
+
 WORKDIR /src
 
 # set up node
@@ -29,11 +33,19 @@ RUN set -ex \
 COPY ./*.sln  ./
 
 # copy csproj and restore as distinct layers
-COPY src/*/*.csproj ./
-RUN for file in $(ls *.csproj); do mkdir -p src/${file%.*}/ && mv $file src/${file%.*}/; done
+COPY src/BlackCountryBot.Tweet.Container/BlackCountryBot.Core/BlackCountryBot.Core.csproj src/BlackCountryBot.Tweet.Container/BlackCountryBot.Core/BlackCountryBot.Core.csproj
+COPY src/BlackCountryBot.Tweet.Container/BlackCountryBot.Tweet.Container.csproj src/BlackCountryBot.Tweet.Container/BlackCountryBot.Tweet.Container.csproj
+COPY src/BlackCountryBot.Tweet.Container/BlackCountryBot.Tweet/BlackCountryBot.Tweet.csproj src/BlackCountryBot.Tweet.Container/BlackCountryBot.Tweet/BlackCountryBot.Tweet.csproj
+COPY src/BlackCountryBot.Web/BlackCountryBot.Web.csproj src/BlackCountryBot.Web/BlackCountryBot.Web.csproj
 
-COPY test/*/*.csproj ./
-RUN for file in $(ls *.csproj); do mkdir -p test/${file%.*}/ && mv $file test/${file%.*}/; done
+COPY test/BlackCountryBot.IntegrationTests/BlackCountryBot.IntegrationTests.csproj test/BlackCountryBot.IntegrationTests/BlackCountryBot.IntegrationTests.csproj
+
+
+#COPY src/*/*.csproj ./
+#RUN for file in $(ls *.csproj); do mkdir -p src/${file%.*}/ && mv $file src/${file%.*}/; done
+#
+#COPY test/*/*.csproj ./
+#RUN for file in $(ls *.csproj); do mkdir -p test/${file%.*}/ && mv $file test/${file%.*}/; done
 
 RUN dotnet restore
 

@@ -12,5 +12,6 @@ namespace BlackCountryBot.Core.Infrastructure
         Task DeleteAsync(TEntity entity, CancellationToken cancellationToken = default);
         Task<TEntity> InsertAsync(TEntity entity, CancellationToken cancellationToken = default);
         Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
+        TEntity Update(TEntity entity);
     }
 }

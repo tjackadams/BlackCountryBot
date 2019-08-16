@@ -36,7 +36,7 @@ namespace BlackCountryBot.Web
         {
             services.AddDbContext<BlackCountryDbContext>(options =>
             {
-                options.UseSqlServer(Configuration["ConnectionString"]);
+                options.UseSqlServer(Configuration["connectionString"]);
             });
 
             services.AddAutoMapper(typeof(Startup));

@@ -51,6 +51,23 @@ namespace BlackCountryBot.Core.Infrastructure
             return result.Entity;
         }
 
+        public TEntity Update(TEntity entity)
+        {
+            var attached = Context.ChangeTracker.Entries<TEntity>().FirstOrDefault(e => e.Entity.Id == entity.Id);
+            if(attached == null)
+            {
+                attached = Table.Update(entity);
+            }
+            else
+            {
+                attached.CurrentValues.SetValues(entity);
+            }
+
+            Context.SaveChanges();
+
+            return attached.Entity;
+        }
+
         public virtual async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
             EntityEntry<TEntity> result = Table.Update(entity);

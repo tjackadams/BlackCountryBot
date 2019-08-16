@@ -3,44 +3,57 @@ using System.IO;
 using System.Threading.Tasks;
 using BlackCountryBot.Core.Infrastructure;
 using BlackCountryBot.Web;
+using DryIoc;
+using DryIoc.Microsoft.DependencyInjection;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Respawn;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace BlackCountryBot.IntegrationTests
 {
     public class SliceFixture
     {
-        private static readonly Checkpoint _checkpoint;
         private static readonly IConfigurationRoot _configuration;
         private static readonly IServiceScopeFactory _scopeFactory;
+        private static readonly IServiceProvider _serviceProvider;
         static SliceFixture()
         {
             IConfigurationBuilder builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true, true)
                 .AddEnvironmentVariables();
             _configuration = builder.Build();
 
             var startup = new Startup(_configuration);
             var services = new ServiceCollection();
-            startup.ConfigureServices(services);
-            ServiceProvider provider = services.BuildServiceProvider();
-            _scopeFactory = provider.GetRequiredService<IServiceScopeFactory>();
-            _checkpoint = new Checkpoint();
 
-            using (IServiceScope scope = _scopeFactory.CreateScope())
+            // override db context
+            services.AddDbContext<BlackCountryDbContext>(o =>
             {
-                BlackCountryDbContext dbContext = scope.ServiceProvider.GetService<BlackCountryDbContext>();
-                dbContext.Database.Migrate();
-            }
+                o.UseInMemoryDatabase(databaseName: "BlackCountry");
+            });
+
+            startup.ConfigureServices(services);
+            _serviceProvider = new Container(rules =>
+                    // optional: Enables property injection for Controllers
+                    // In current setup `WithMef` it will be overriden by properties marked with `ImportAttribute`
+                    rules.With(propertiesAndFields: request => request.ServiceType.Name.EndsWith("Controller")
+                        ? PropertiesAndFields.Properties()(request)
+                        : null)
+                )
+                .WithDependencyInjectionAdapter(services)
+                .WithCompositionRoot<CompositionRoot>();
+            _scopeFactory = _serviceProvider.GetRequiredService<IServiceScopeFactory>();
         }
 
-        public static Task ResetCheckpoint()
+        public static async Task ResetCheckpoint()
         {
-            return _checkpoint.Reset(_configuration["ConnectionString"]);
+            BlackCountryDbContext context = _serviceProvider.GetRequiredService<BlackCountryDbContext>();
+            await context.Database.EnsureDeletedAsync();
+
+            await new BlackCountryDbContextSeed()
+            .SeedAsync(context, NullLogger<BlackCountryDbContextSeed>.Instance);
         }
 
         public static Task<TResponse> SendAsync<TResponse>(IRequest<TResponse> request)
