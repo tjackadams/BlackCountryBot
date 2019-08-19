@@ -1,7 +1,7 @@
 version: 1.0
 provider:
   name: openfaas
-  gateway: http://127.0.0.1:8080
+  gateway: http://192.168.0.70:31112
 functions:
   blackcountrybot-worker:
     lang: Dockerfile
@@ -13,3 +13,6 @@ functions:
         upstream_timeout: 25s        
     environment_file:
         - blackcountrybot.Development.yml
+    annotations:
+        topic: cron-functions
+        schedule: "0 8,18 * * *"

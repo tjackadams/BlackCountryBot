@@ -1,6 +1,6 @@
 FROM openfaas/classic-watchdog:0.15.4 as watchdog
 
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch-arm32v7  AS build
 
 # Supress collection of data.
 ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
@@ -22,7 +22,7 @@ COPY . .
 
 RUN dotnet publish -c Release -o published
 
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2
+FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.2-stretch-slim-arm32v7
 
 # Supress collection of data.
 ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
