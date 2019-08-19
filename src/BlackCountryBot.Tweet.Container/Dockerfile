@@ -21,7 +21,7 @@ COPY . .
 
 RUN dotnet publish -c Release -o published -r linux-arm
 
-FROM mcr.microsoft.com/dotnet/core/runtime:2.2.4-stretch-slim-arm32v7
+FROM mcr.microsoft.com/dotnet/core/runtime:2.2-bionic-arm32v7
 
 # Supress collection of data.
 ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
