@@ -16,3 +16,4 @@ functions:
     annotations:
         topic: cron-functions
         schedule: "0 8,18 * * *"
+
