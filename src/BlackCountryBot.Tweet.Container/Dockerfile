@@ -1,12 +1,8 @@
 FROM openfaas/classic-watchdog:0.15.4 as watchdog
-FROM resin/rpi-raspbian as qemu
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch  AS build
 
 # Supress collection of data.
 ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
-
-# copy the QEMU library 
-COPY --from=qemu /usr/bin/qemu-arm-static /usr/bin/qemu-arm-static
 
 # Optimize for Docker builder caching by adding projects first.
 RUN mkdir -p /home/app/src/BlackCountryBot.Core
