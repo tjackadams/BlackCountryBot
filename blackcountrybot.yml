@@ -6,7 +6,7 @@ functions:
   blackcountrybot-worker:
     lang: Dockerfile
     handler: ./src/BlackCountryBot.Tweet.Container
-    image: blackcountrybot-worker:latest
+    image: blackcountrybot:latest
     environment:
         read_timeout: 30s
         write_timeout: 30s
