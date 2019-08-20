@@ -3,8 +3,8 @@ provider:
   name: openfaas
   gateway: http://192.168.0.70:31112
 functions:
-  blackcountrybot-worker:
-    lang: Dockerfile
+  blackcountrybot:
+    lang: dockerfile
     handler: ./src/BlackCountryBot.Tweet.Container
     image: tjackadams/blackcountrybot:latest
     environment:
@@ -16,4 +16,3 @@ functions:
     annotations:
         topic: cron-functions
         schedule: "0 8,18 * * *"
-

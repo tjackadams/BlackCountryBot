@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: blackcountrybot-web
+spec:
+  selector:
+    app: blackcountrybot-web
+  ports:
+  - protocol: TCP
+    port: 8002
+    targetPort: 80
+  externalIPs:
+  - 192.168.0.70

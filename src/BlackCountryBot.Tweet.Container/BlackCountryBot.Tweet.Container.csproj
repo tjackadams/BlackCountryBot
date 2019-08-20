@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RuntimeIdentifier>linux-arm</RuntimeIdentifier>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AssemblyName>root</AssemblyName>
   </PropertyGroup>

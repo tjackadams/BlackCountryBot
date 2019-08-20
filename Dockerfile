@@ -1,8 +1,10 @@
-from mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch-arm32v7 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
 
-# Supress collection of data.
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
 ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
-
 WORKDIR /src
 
 # set up node
@@ -30,38 +32,22 @@ RUN set -ex \
   && ln -s /opt/yarn/bin/yarn /usr/local/bin/yarnpkg \
   && rm yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz
 
-COPY ./*.sln  ./
-
 # copy csproj and restore as distinct layers
 COPY src/BlackCountryBot.Tweet.Container/BlackCountryBot.Core/BlackCountryBot.Core.csproj src/BlackCountryBot.Tweet.Container/BlackCountryBot.Core/BlackCountryBot.Core.csproj
-COPY src/BlackCountryBot.Tweet.Container/BlackCountryBot.Tweet.Container.csproj src/BlackCountryBot.Tweet.Container/BlackCountryBot.Tweet.Container.csproj
-COPY src/BlackCountryBot.Tweet.Container/BlackCountryBot.Tweet/BlackCountryBot.Tweet.csproj src/BlackCountryBot.Tweet.Container/BlackCountryBot.Tweet/BlackCountryBot.Tweet.csproj
 COPY src/BlackCountryBot.Web/BlackCountryBot.Web.csproj src/BlackCountryBot.Web/BlackCountryBot.Web.csproj
 
-COPY test/BlackCountryBot.IntegrationTests/BlackCountryBot.IntegrationTests.csproj test/BlackCountryBot.IntegrationTests/BlackCountryBot.IntegrationTests.csproj
-
-
-#COPY src/*/*.csproj ./
-#RUN for file in $(ls *.csproj); do mkdir -p src/${file%.*}/ && mv $file src/${file%.*}/; done
-#
-#COPY test/*/*.csproj ./
-#RUN for file in $(ls *.csproj); do mkdir -p test/${file%.*}/ && mv $file test/${file%.*}/; done
-
-RUN dotnet restore
+RUN dotnet restore "src/BlackCountryBot.Web/BlackCountryBot.Web.csproj"
 
 # copy and publish app and libraries
 COPY . . 
 WORKDIR /src/src/BlackCountryBot.Web
-RUN dotnet publish -c Release -o app
 
-# test application
-FROM build AS testrunner
-WORKDIR /src/test/BlackCountryBot.IntegrationTests
-ENTRYPOINT ["dotnet", "test","--logger:trx"]
+FROM build as publish
+RUN dotnet publish -c Release -o /app -r linux-arm
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2
-WORKDIR /src
+FROM base AS final
+WORKDIR /app
 
 # set up node
 ENV NODE_VERSION 11.11.0
@@ -88,5 +74,5 @@ RUN set -ex \
   && ln -s /opt/yarn/bin/yarn /usr/local/bin/yarnpkg \
   && rm yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz
 
-COPY --from=build /src/src/BlackCountryBot.Web .
+COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "BlackCountryBot.Web.dll"]

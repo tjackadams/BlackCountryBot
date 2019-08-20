@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.dockerignore = .dockerignore
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		blackcountrybot-web-deployment.yml = blackcountrybot-web-deployment.yml
+		blackcountrybot-web-service.yml = blackcountrybot-web-service.yml
 		blackcountrybot.Development.yml = blackcountrybot.Development.yml
 		blackcountrybot.yml = blackcountrybot.yml
 		Dockerfile = Dockerfile
@@ -23,11 +25,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackCountryBot.Tweet.Container", "src\BlackCountryBot.Tweet.Container\BlackCountryBot.Tweet.Container.csproj", "{70EF146A-BBEC-40E3-80B6-24C740488A5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackCountryBot.Tweet.Container", "src\BlackCountryBot.Tweet.Container\BlackCountryBot.Tweet.Container.csproj", "{9C9C89D4-938E-4DAA-BD09-E88F4B7863B9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackCountryBot.Tweet", "src\BlackCountryBot.Tweet.Container\BlackCountryBot.Tweet\BlackCountryBot.Tweet.csproj", "{19899BCF-714C-4319-85A9-AE127ED6F690}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackCountryBot.Tweet", "src\BlackCountryBot.Tweet.Container\BlackCountryBot.Tweet\BlackCountryBot.Tweet.csproj", "{D92C2389-16B3-4232-A31B-32A25CC18747}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackCountryBot.Core", "src\BlackCountryBot.Tweet.Container\BlackCountryBot.Core\BlackCountryBot.Core.csproj", "{FD12F2ED-777B-484E-8D84-660DE766188E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackCountryBot.Core", "src\BlackCountryBot.Tweet.Container\BlackCountryBot.Core\BlackCountryBot.Core.csproj", "{13DE46A2-88D7-4937-89D2-E93CFC1CA853}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,18 +45,18 @@ Global
 		{B053B7D4-01BD-4C50-8268-3072A96DC795}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B053B7D4-01BD-4C50-8268-3072A96DC795}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B053B7D4-01BD-4C50-8268-3072A96DC795}.Release|Any CPU.Build.0 = Release|Any CPU
-		{70EF146A-BBEC-40E3-80B6-24C740488A5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{70EF146A-BBEC-40E3-80B6-24C740488A5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{70EF146A-BBEC-40E3-80B6-24C740488A5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{70EF146A-BBEC-40E3-80B6-24C740488A5F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{19899BCF-714C-4319-85A9-AE127ED6F690}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{19899BCF-714C-4319-85A9-AE127ED6F690}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{19899BCF-714C-4319-85A9-AE127ED6F690}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{19899BCF-714C-4319-85A9-AE127ED6F690}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FD12F2ED-777B-484E-8D84-660DE766188E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FD12F2ED-777B-484E-8D84-660DE766188E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FD12F2ED-777B-484E-8D84-660DE766188E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FD12F2ED-777B-484E-8D84-660DE766188E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C9C89D4-938E-4DAA-BD09-E88F4B7863B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C9C89D4-938E-4DAA-BD09-E88F4B7863B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C9C89D4-938E-4DAA-BD09-E88F4B7863B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C9C89D4-938E-4DAA-BD09-E88F4B7863B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D92C2389-16B3-4232-A31B-32A25CC18747}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D92C2389-16B3-4232-A31B-32A25CC18747}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D92C2389-16B3-4232-A31B-32A25CC18747}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D92C2389-16B3-4232-A31B-32A25CC18747}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13DE46A2-88D7-4937-89D2-E93CFC1CA853}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13DE46A2-88D7-4937-89D2-E93CFC1CA853}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13DE46A2-88D7-4937-89D2-E93CFC1CA853}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13DE46A2-88D7-4937-89D2-E93CFC1CA853}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,9 +64,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{DA691E7B-28CA-42F9-BA3F-07E2EC3BD4C6} = {8CBCB0F8-C139-4191-9CBF-B8DF816696F9}
 		{B053B7D4-01BD-4C50-8268-3072A96DC795} = {4150F0AE-8FCB-4464-BB35-E717DF999697}
-		{70EF146A-BBEC-40E3-80B6-24C740488A5F} = {4150F0AE-8FCB-4464-BB35-E717DF999697}
-		{19899BCF-714C-4319-85A9-AE127ED6F690} = {4150F0AE-8FCB-4464-BB35-E717DF999697}
-		{FD12F2ED-777B-484E-8D84-660DE766188E} = {4150F0AE-8FCB-4464-BB35-E717DF999697}
+		{9C9C89D4-938E-4DAA-BD09-E88F4B7863B9} = {4150F0AE-8FCB-4464-BB35-E717DF999697}
+		{D92C2389-16B3-4232-A31B-32A25CC18747} = {4150F0AE-8FCB-4464-BB35-E717DF999697}
+		{13DE46A2-88D7-4937-89D2-E93CFC1CA853} = {4150F0AE-8FCB-4464-BB35-E717DF999697}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F68A878F-A54D-4C0F-92E5-986F0604F40B}

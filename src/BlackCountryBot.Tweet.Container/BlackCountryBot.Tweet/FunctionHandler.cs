@@ -79,7 +79,7 @@ namespace BlackCountryBot.Worker
         {
             Auth.SetUserCredentials(
                 Configuration["consumerKey"],
-                 Configuration["conumerSecret"],
+                 Configuration["consumerSecret"],
                  Configuration["userAccessToken"],
                  Configuration["userAccessSecret"]);
 

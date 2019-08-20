@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blackcountrybot-web-deployment
+spec:
+  selector:
+    matchLabels:
+      app: blackcountrybot-web
+  template:
+    metadata:
+      labels:
+        app: blackcountrybot-web
+    spec:
+      containers:
+      - name: blackcountrybot-web
+        image: tjackadams/blackcountrybot-web:latest
+        ports:
+        - containerPort: 80
+        env:
+            - name: connectionString
+              valueFrom:
+                configMapKeyRef:
+                    name: blackcountrybot-web-config
+                    key: connectionString
