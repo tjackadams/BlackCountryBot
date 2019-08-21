@@ -51,6 +51,9 @@ export function signalRInvokeMiddleware(store) {
       case "SIGNALR_UPDATE_PHRASE":
         connection.invoke("UpdatePhrase", action.command);
         break;
+      case "SIGNALR_TWEET_PHRASE":
+        connection.invoke("TweetPhrase", action.command);
+        break;
       default:
         break;
     }

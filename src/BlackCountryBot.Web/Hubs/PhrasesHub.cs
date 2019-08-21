@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using BlackCountryBot.Core.Features.Phrases;
 using BlackCountryBot.Core.Models.Phrases;
-using BlackCountryBot.Web.Features.Phrases;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 
@@ -35,9 +35,18 @@ namespace BlackCountryBot.Web.Hubs
         {
             return _mediator.Send(command);
         }
+
+        public Task TweetPhrase(SubmitTweet.Command command)
+        {
+            return _mediator.Send(command);
+        }
     }
 
-    public class PhraseHubDispatcher : INotificationHandler<PhraseCreatedNotification>, INotificationHandler<PhraseDeletedNotification>, INotificationHandler<PhraseUpdatedNotification>
+    public class PhraseHubDispatcher :
+        INotificationHandler<PhraseCreatedNotification>,
+        INotificationHandler<PhraseDeletedNotification>,
+        INotificationHandler<PhraseUpdatedNotification>,
+        INotificationHandler<PhraseTweetedNotification>
     {
         private readonly IHubContext<PhrasesHub> _hub;
         private readonly IMediator _mediator;
@@ -58,6 +67,11 @@ namespace BlackCountryBot.Web.Hubs
         }
 
         public Task Handle(PhraseUpdatedNotification notification, CancellationToken cancellationToken)
+        {
+            return SendAllPhrasesAsync(cancellationToken);
+        }
+
+        public Task Handle(PhraseTweetedNotification notification, CancellationToken cancellationToken)
         {
             return SendAllPhrasesAsync(cancellationToken);
         }

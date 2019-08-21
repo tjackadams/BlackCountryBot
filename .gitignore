@@ -346,4 +346,7 @@ healthchecksdb
 /src/blackcountrybot-worker/libs
 /template
 /blackcountrybot.Development.yml
-/build/
+build/
+**/appsettings.development.json
+**/appsettings.staging.json
+**/appsettings.production.json

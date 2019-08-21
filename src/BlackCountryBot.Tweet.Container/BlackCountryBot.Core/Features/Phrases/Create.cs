@@ -7,7 +7,7 @@ using BlackCountryBot.Core.Models.Phrases;
 using FluentValidation;
 using MediatR;
 
-namespace BlackCountryBot.Web.Features.Phrases
+namespace BlackCountryBot.Core.Features.Phrases
 {
     public class Create
     {

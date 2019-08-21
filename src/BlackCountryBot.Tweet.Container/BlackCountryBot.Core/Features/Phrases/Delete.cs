@@ -7,7 +7,7 @@ using BlackCountryBot.Core.Infrastructure;
 using BlackCountryBot.Core.Models.Phrases;
 using MediatR;
 
-namespace BlackCountryBot.Web.Features.Phrases
+namespace BlackCountryBot.Core.Features.Phrases
 {
     public class Delete
     {

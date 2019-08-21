@@ -14,6 +14,10 @@ export const actionCreators = {
   update: payload => ({
     type: "SIGNALR_UPDATE_PHRASE",
     command: payload
+  }),
+  tweet: payload => ({
+    type: "SIGNALR_TWEET_PHRASE",
+    command: payload
   })
 };
 

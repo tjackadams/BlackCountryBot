@@ -239,6 +239,11 @@ class PhraseList extends React.PureComponent {
                   key: "update",
                   text: "Update",
                   onClick: () => this._updateItem(item, index)
+                },
+                {
+                  key: "tweet",
+                  text: "Tweet",
+                  onClick: () => this.props.tweet({ id: item.phraseId })
                 }
               ]
             }}

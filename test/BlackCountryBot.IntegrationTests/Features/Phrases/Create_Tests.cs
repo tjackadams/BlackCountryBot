@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
+using BlackCountryBot.Core.Features.Phrases;
 using BlackCountryBot.Core.Models.Phrases;
-using BlackCountryBot.Web.Features.Phrases;
 using Shouldly;
 using Xunit;
 using static BlackCountryBot.IntegrationTests.SliceFixture;
@@ -20,7 +20,7 @@ namespace BlackCountryBot.IntegrationTests.Features.Phrases
             };
 
             // act
-            var sut = await SendAsync(cmd);
+            Create.Result sut = await SendAsync(cmd);
 
             // assert
             Phrase phrase = await FindAsync<Phrase>(sut.PhraseId);

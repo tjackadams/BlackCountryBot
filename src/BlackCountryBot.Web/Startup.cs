@@ -2,9 +2,9 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using BlackCountryBot.Core.Features.Phrases;
 using BlackCountryBot.Core.Infrastructure;
 using BlackCountryBot.Core.Models.Phrases;
-using BlackCountryBot.Web.Features.Phrases;
 using BlackCountryBot.Web.Hubs;
 using DryIoc;
 using DryIoc.Microsoft.DependencyInjection;
@@ -19,6 +19,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using Tweetinvi;
 
 namespace BlackCountryBot.Web
 {
@@ -34,14 +35,20 @@ namespace BlackCountryBot.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            Auth.SetUserCredentials(
+                Configuration["consumerKey"],
+                 Configuration["consumerSecret"],
+                 Configuration["userAccessToken"],
+                 Configuration["userAccessSecret"]);
+
             services.AddDbContext<BlackCountryDbContext>(options =>
             {
                 options.UseSqlServer(Configuration["connectionString"]);
             });
 
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(Startup), typeof(Phrase));
 
-            services.AddMediatR(typeof(Startup).Assembly);
+            services.AddMediatR(typeof(Startup).Assembly, typeof(Phrase).Assembly);
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(CreateValidationBehavior<,>));
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(UpdateValidationBehavior<,>));
@@ -110,7 +117,7 @@ namespace BlackCountryBot.Web
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
+                    spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
         }
