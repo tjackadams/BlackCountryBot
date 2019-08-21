@@ -3,8 +3,8 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-RUN groupadd --gid 1000 node \
-  && useradd --uid 1000 --gid node --shell /bin/bash --create-home node
+#RUN groupadd --gid 1000 node \
+  #&& useradd --uid 1000 --gid node --shell /bin/bash --create-home node
 
 ENV NODE_VERSION 10.16.3
 
