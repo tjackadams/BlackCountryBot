@@ -21,18 +21,23 @@ namespace BlackCountryBot.Web.Hubs
             await Clients.All.SendAsync("getAllPhrases", phrases.Phrases);
         }
 
-        public Task CreatePhrase(string original, string translation)
+        public Task CreatePhrase(Create.Command command)
         {
-            return _mediator.Send(new Create.Command { Original = original, Translation = translation });
+            return _mediator.Send(command);
         }
 
-        public Task DeletePhrase(int id)
+        public Task DeletePhrase(Delete.Command command)
         {
-            return _mediator.Send(new Delete.Command { Id = id });
+            return _mediator.Send(command);
+        }
+
+        public Task UpdatePhrase(Update.Command command)
+        {
+            return _mediator.Send(command);
         }
     }
 
-    public class PhraseHubDispatcher : INotificationHandler<PhraseCreatedNotification>, INotificationHandler<PhraseDeletedNotification>
+    public class PhraseHubDispatcher : INotificationHandler<PhraseCreatedNotification>, INotificationHandler<PhraseDeletedNotification>, INotificationHandler<PhraseUpdatedNotification>
     {
         private readonly IHubContext<PhrasesHub> _hub;
         private readonly IMediator _mediator;
@@ -48,6 +53,11 @@ namespace BlackCountryBot.Web.Hubs
         }
 
         public Task Handle(PhraseDeletedNotification notification, CancellationToken cancellationToken)
+        {
+            return SendAllPhrasesAsync(cancellationToken);
+        }
+
+        public Task Handle(PhraseUpdatedNotification notification, CancellationToken cancellationToken)
         {
             return SendAllPhrasesAsync(cancellationToken);
         }

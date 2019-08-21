@@ -44,6 +44,7 @@ namespace BlackCountryBot.Web
             services.AddMediatR(typeof(Startup).Assembly);
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<,>));
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(CreateValidationBehavior<,>));
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(UpdateValidationBehavior<,>));
 
             services.AddSignalR();
 
@@ -109,7 +110,7 @@ namespace BlackCountryBot.Web
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
                 }
             });
         }

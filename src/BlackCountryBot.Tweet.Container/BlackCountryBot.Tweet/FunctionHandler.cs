@@ -22,6 +22,8 @@ namespace BlackCountryBot.Worker
         {
             try
             {
+                TweetinviConfig.CurrentThreadSettings.TweetMode = TweetMode.Extended;
+
                 IServiceProvider serviceProvider = BuildServiceProvider();
 
                 using (IServiceScope scope = serviceProvider.CreateScope())

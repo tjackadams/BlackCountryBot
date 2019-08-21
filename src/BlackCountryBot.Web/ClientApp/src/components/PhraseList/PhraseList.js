@@ -2,24 +2,22 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import debounce from "lodash/debounce";
+import { format } from "date-fns";
 import {
   ConstrainMode,
   ShimmeredDetailsList,
-  DetailsListLayoutMode,
-  MarqueeSelection,
   mergeStyleSets,
-  Selection,
-  TextField,
   Text,
   CommandBar,
   mergeStyles,
   getTheme,
   Modal,
-  getId,
-  DefaultPalette
+  DefaultPalette,
+  IconButton,
+  SelectionMode
 } from "office-ui-fabric-react";
 
-import { EntryForm } from "../EntryForm";
+import { CreateForm, EditForm } from "../Forms";
 
 import { actionCreators } from "../../store/Phrases";
 
@@ -86,7 +84,7 @@ class PhraseList extends React.PureComponent {
         key: "column1",
         name: "Phrase",
         fieldName: "original",
-        minWidth: 210,
+        minWidth: 300,
         maxWidth: 400,
         isRowHeader: true,
         isResizable: true,
@@ -133,27 +131,26 @@ class PhraseList extends React.PureComponent {
         key: "column4",
         name: "Last Tweeted",
         fieldName: "lastTweetTime",
-        minWidth: 70,
-        maxWidth: 90,
+        minWidth: 120,
+        maxWidth: 300,
         isResizable: true,
         onColumnClick: (ev, column) => this._onColumnClick(ev, column),
         data: "string",
         isPadded: true,
         onRender: item => {
-          return <span>{item.lastTweetTime}</span>;
+          return (
+            <span>
+              {item.lastTweetTime &&
+                format(new Date(item.lastTweetTime), "dd/MM/yy h:mm bbbb")}
+            </span>
+          );
         }
       }
     ],
-    selectionDetails: "No items selected",
-    showModal: false,
-    selection: new Selection({
-      onSelectionChanged: () => {
-        this.setState({
-          selectionDetails: this._getSelectionDetails()
-        });
-      }
-    }),
-    isDataLoaded: false
+    showCreateModal: false,
+    showEditModal: false,
+    isDataLoaded: false,
+    selectedPhrase: null
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -171,53 +168,28 @@ class PhraseList extends React.PureComponent {
         key: "addPhrase",
         text: "New phrase",
         iconProps: { iconName: "Add" },
-        onClick: this._showModal
-      },
-      {
-        key: "deletePhrase",
-        text: "Delete phrase(s)",
-        iconProps: { iconName: "Delete" },
-        onClick: this._onDeleteRow
+        onClick: this._showCreateModal
       }
     ];
   };
 
-  _getSelectionDetails() {
-    const selectionCount = this.state.selection.getSelectedCount();
+  _showCreateModal = () => {
+    this.setState({ showCreateModal: true });
+  };
 
-    switch (selectionCount) {
-      case 0:
-        return "No items selected";
-      case 1:
-        return (
-          "1 item selected: " + this.state.selection.getSelection()[0].phraseId
-        );
-      default:
-        return `${selectionCount} items selected`;
-    }
-  }
-
-  _showModal = () => {
-    this.setState({ showModal: true });
+  _showEditModal = () => {
+    this.setState({ showEditModal: true });
   };
 
   _closeModal = ev => {
     if (ev !== undefined) {
       ev.preventDefault();
     }
-    this.setState({ showModal: false });
-  };
-
-  _onDeleteRow = () => {
-    if (this.state.selection.getSelectedCount() > 0) {
-      for (const selection of this.state.selection.getSelection()) {
-        this.props.delete({ id: selection.phraseId });
-      }
-    } else {
-      this.props.delete({
-        id: this.state.selection.getSelection()[0].phraseId
-      });
-    }
+    this.setState({
+      showCreateModal: false,
+      showEditModal: false,
+      selectedPhrase: null
+    });
   };
 
   _onFilter = () =>
@@ -261,14 +233,61 @@ class PhraseList extends React.PureComponent {
     });
   };
 
+  _deleteItem = (item, index) => {
+    this.props.delete({
+      id: item.phraseId
+    });
+  };
+
+  _updateItem = (item, index) => {
+    this.setState({
+      showEditModal: true,
+      selectedPhrase: item
+    });
+  };
+
+  _onRenderItemColumn = (item, index, column) => {
+    const fieldContent = item[column.fieldName];
+    if (column.key === "column1") {
+      return (
+        <div>
+          {fieldContent}
+          <IconButton
+            menuIconProps={{ iconName: "MoreVertical" }}
+            role="button"
+            aria-haspopup={true}
+            aria-label="Show Actions"
+            styles={{ root: { float: "right", height: "inherit " } }}
+            menuProps={{
+              items: [
+                {
+                  key: "delete",
+                  text: "Delete",
+                  onClick: () => this._deleteItem(item, index)
+                },
+                {
+                  key: "update",
+                  text: "Update",
+                  onClick: () => this._updateItem(item, index)
+                }
+              ]
+            }}
+          />
+        </div>
+      );
+    } else {
+      return <span>{fieldContent}</span>;
+    }
+  };
+
   render() {
     const {
       columns,
       items,
-      selectionDetails,
-      showModal,
-      selection,
-      isDataLoaded
+      showCreateModal,
+      showEditModal,
+      isDataLoaded,
+      selectedPhrase
     } = this.state;
 
     return (
@@ -276,32 +295,20 @@ class PhraseList extends React.PureComponent {
         <CommandBar
           styles={{ root: { marginBottom: "40px" } }}
           items={this._getCommandItems()}
-          farItems={[{ key: "count", text: selectionDetails }]}
         />
-        <div className={classNames.controlWrapper}>
-          <TextField
-            className={selectionDetails}
-            label="Filter:"
-            onChange={this._onFilter()}
-            styles={{ root: { maxWidth: "300px" } }}
-          />
-        </div>
-        <MarqueeSelection selection={selection}>
-          <ShimmeredDetailsList
-            items={items}
-            columns={columns}
-            isHeaderVisible={true}
-            selection={selection}
-            selectionPreservedOnEmptyClick={true}
-            constrainMode={ConstrainMode.horizontalConstrained}
-            layoutMode={DetailsListLayoutMode.justified}
-            enableShimmer={!isDataLoaded}
-          />
-        </MarqueeSelection>
+        <ShimmeredDetailsList
+          items={items}
+          columns={columns}
+          constrainMode={ConstrainMode.horizontalConstrained}
+          enableShimmer={!isDataLoaded}
+          onRenderItemColumn={this._onRenderItemColumn}
+          enableUpdateAnimations={true}
+          selectionMode={SelectionMode.none}
+        />
         <Modal
           titleAriaId={this._titleId}
           subtitleAriaId={this._subtitleId}
-          isOpen={showModal}
+          isOpen={showCreateModal}
           onDismiss={this._closeModal}
           containerClassName={classNames.modalContainer}
         >
@@ -311,9 +318,25 @@ class PhraseList extends React.PureComponent {
             </Text>
           </div>
           <div id={this._subtitleId} className={classNames.modalBody}>
-            <EntryForm
+            <CreateForm
               onClose={this._closeModal}
               onSubmit={this.props.create}
+            />
+          </div>
+        </Modal>
+        <Modal
+          isOpen={showEditModal}
+          onDismiss={this._closeModal}
+          containerClassName={classNames.modalContainer}
+        >
+          <div className={classNames.modalHeader}>
+            <Text variant="xxLarge">Update Phrase</Text>
+          </div>
+          <div className={classNames.modalBody}>
+            <EditForm
+              onClose={this._closeModal}
+              phrase={selectedPhrase}
+              onSubmit={this.props.update}
             />
           </div>
         </Modal>

@@ -41,12 +41,12 @@ namespace BlackCountryBot.Core.Infrastructure
 
                 e
                 .Property(p => p.Original)
-                .HasMaxLength(100)
+                .HasMaxLength(140)
                 .IsRequired();
 
                 e
                 .Property(p => p.Translation)
-                .HasMaxLength(100)
+                .HasMaxLength(140)
                 .IsRequired();
             });
         }

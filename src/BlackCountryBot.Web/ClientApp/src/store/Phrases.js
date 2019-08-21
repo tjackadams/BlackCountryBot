@@ -1,17 +1,19 @@
 const getAllPhrasesType = "GETALL_PHRASES";
-const createPhraseType = "CREATE_PHRASE";
 const initialState = { phrases: [] };
 
 export const actionCreators = {
   getAll: () => ({ type: getAllPhrasesType }),
   create: payload => ({
     type: "SIGNALR_CREATE_PHRASE",
-    original: payload.original,
-    translation: payload.translation
+    command: payload
   }),
   delete: payload => ({
     type: "SIGNALR_DELETE_PHRASE",
-    id: payload.id
+    command: payload
+  }),
+  update: payload => ({
+    type: "SIGNALR_UPDATE_PHRASE",
+    command: payload
   })
 };
 

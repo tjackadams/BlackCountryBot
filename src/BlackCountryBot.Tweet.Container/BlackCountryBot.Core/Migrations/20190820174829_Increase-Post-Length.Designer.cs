@@ -4,14 +4,16 @@ using BlackCountryBot.Core.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BlackCountryBot.Core.Migrations
 {
     [DbContext(typeof(BlackCountryDbContext))]
-    partial class BlackCountryContextModelSnapshot : ModelSnapshot
+    [Migration("20190820174829_Increase-Post-Length")]
+    partial class IncreasePostLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

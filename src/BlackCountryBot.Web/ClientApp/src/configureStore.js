@@ -43,11 +43,13 @@ export function signalRInvokeMiddleware(store) {
   return next => async action => {
     switch (action.type) {
       case "SIGNALR_CREATE_PHRASE":
-        connection.invoke("CreatePhrase", action.original, action.translation);
+        connection.invoke("CreatePhrase", action.command);
         break;
       case "SIGNALR_DELETE_PHRASE":
-        console.log("action", action);
-        connection.invoke("DeletePhrase", action.id);
+        connection.invoke("DeletePhrase", action.command);
+        break;
+      case "SIGNALR_UPDATE_PHRASE":
+        connection.invoke("UpdatePhrase", action.command);
         break;
       default:
         break;

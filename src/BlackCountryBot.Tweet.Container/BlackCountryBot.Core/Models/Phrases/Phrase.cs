@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading;
+using System.Linq;
 using BlackCountryBot.Core.Infrastructure;
 using MediatR;
 
@@ -35,7 +35,35 @@ namespace BlackCountryBot.Core.Models.Phrases
         {
             LastTweetTime = DateTimeOffset.Now;
             NumberOfTweets++;
-            return $"Black Country: {Original} \n\n Translation: {Translation} \n\n #BlackCountry";
+            return $"{Original} \n\n Translation: {Translation} \n\n #BlackCountry";
+        }
+
+        public Phrase UpdatePhrase(string newPhrase)
+        {
+            newPhrase = string.IsNullOrWhiteSpace(newPhrase) ? throw new ArgumentNullException(nameof(newPhrase)) : newPhrase;
+
+            Original = newPhrase;
+
+            if (!GetDomainEvents().OfType<PhraseUpdatedNotification>().Any())
+            {
+                AddDomainEvent(new PhraseUpdatedNotification());
+            }
+
+            return this;
+        }
+
+        public Phrase UpdateTranslation(string newTranslation)
+        {
+            newTranslation = string.IsNullOrWhiteSpace(newTranslation) ? throw new ArgumentNullException(nameof(newTranslation)) : newTranslation;
+
+            Translation = newTranslation;
+
+            if (!GetDomainEvents().OfType<PhraseUpdatedNotification>().Any())
+            {
+                AddDomainEvent(new PhraseUpdatedNotification());
+            }
+
+            return this;
         }
     }
 
@@ -49,4 +77,8 @@ namespace BlackCountryBot.Core.Models.Phrases
 
     }
 
+    public class PhraseUpdatedNotification : INotification
+    {
+
+    }
 }

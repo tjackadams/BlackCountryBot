@@ -4,26 +4,9 @@ import { Formik, Field } from "formik";
 import { CompoundButton, Stack, DefaultButton } from "office-ui-fabric-react";
 import { FormikTextField } from "formik-office-ui-fabric-react";
 
-class Values {
-  phrase = "";
-  translation = "";
+import { CreateSchema } from "./Schema";
 
-  static validate(values) {
-    const errors = {};
-
-    if (!values.phrase) {
-      errors.phrase = "black country phrase is required";
-    }
-
-    if (!values.translation) {
-      errors.translation = "how will anyone understand you?";
-    }
-
-    return errors;
-  }
-}
-
-export const EntryForm = props => {
+export const CreateForm = props => {
   const columnProps = {
     tokens: { childrenGap: 20 }
   };
@@ -40,8 +23,7 @@ export const EntryForm = props => {
   console.log("form props", props);
   return (
     <Formik
-      initialValues={new Values()}
-      validate={Values.validate}
+      validationSchema={CreateSchema}
       onSubmit={(values, actions) => {
         props.onSubmit({
           original: values.phrase,

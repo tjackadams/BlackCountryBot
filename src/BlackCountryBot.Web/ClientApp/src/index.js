@@ -16,6 +16,11 @@ const store = configureStore(history, initialState);
 
 initializeIcons();
 
+if (process.env.NODE_ENV !== "production") {
+  const whyDidYouRender = require("@welldone-software/why-did-you-render");
+  whyDidYouRender(React);
+}
+
 signalRRegisterCommands(store, () => {
   ReactDOM.render(
     <App store={store} history={history} />,
