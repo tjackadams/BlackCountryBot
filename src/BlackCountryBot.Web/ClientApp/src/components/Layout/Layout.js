@@ -1,6 +1,7 @@
 import React from "react";
 
-import { DefaultPalette, Stack } from "office-ui-fabric-react";
+import { DefaultPalette } from "office-ui-fabric-react/lib/Styling";
+import { Stack } from "office-ui-fabric-react/lib/Stack";
 
 import { Header } from "../Header";
 

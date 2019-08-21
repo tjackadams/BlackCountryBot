@@ -1,25 +1,25 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import debounce from "lodash/debounce";
 import { format } from "date-fns";
+import { CommandBar } from "office-ui-fabric-react/lib/CommandBar";
+import { IconButton } from "office-ui-fabric-react/lib/Button";
 import {
   ConstrainMode,
-  ShimmeredDetailsList,
-  mergeStyleSets,
-  Text,
-  CommandBar,
-  mergeStyles,
-  getTheme,
-  Modal,
-  DefaultPalette,
-  IconButton,
   SelectionMode
-} from "office-ui-fabric-react";
-
-import { CreateForm, EditForm } from "../Forms";
+} from "office-ui-fabric-react/lib/DetailsList";
+import { ShimmeredDetailsList } from "office-ui-fabric-react/lib/ShimmeredDetailsList";
+import {
+  getTheme,
+  mergeStyles,
+  mergeStyleSets
+} from "office-ui-fabric-react/lib/Styling";
 
 import { actionCreators } from "../../store/Phrases";
+
+const CreateModal = React.lazy(() => import("./CreateModal"));
+const EditModal = React.lazy(() => import("./EditModal"));
 
 const theme = getTheme();
 const classNames = mergeStyleSets({
@@ -35,36 +35,6 @@ const classNames = mergeStyleSets({
     bottom: 0,
     width: "1px",
     zIndex: 5
-  },
-
-  controlWrapper: {
-    display: "flex",
-    flexWrap: "wrap"
-  },
-
-  selectionDetails: {
-    marginBottom: "20px"
-  },
-  modalContainer: {
-    height: "60vh",
-    width: "60vw",
-    display: "flex",
-    flexFlow: "column nowrap",
-    alignItems: "stretch"
-  },
-  modalHeader: {
-    flex: "1 1 auto",
-    background: theme.palette.themePrimary,
-    color: DefaultPalette.white,
-    display: "flex",
-    alignItems: "center",
-    padding: "0 28px",
-    minHeight: "40px"
-  },
-  modalBody: {
-    flex: "4 4 auto",
-    padding: "5px 28px",
-    overflowY: "hidden"
   }
 });
 
@@ -305,41 +275,19 @@ class PhraseList extends React.PureComponent {
           enableUpdateAnimations={true}
           selectionMode={SelectionMode.none}
         />
-        <Modal
-          titleAriaId={this._titleId}
-          subtitleAriaId={this._subtitleId}
-          isOpen={showCreateModal}
-          onDismiss={this._closeModal}
-          containerClassName={classNames.modalContainer}
-        >
-          <div className={classNames.modalHeader}>
-            <Text variant="xxLarge" id={this._titleId}>
-              New Phrase
-            </Text>
-          </div>
-          <div id={this._subtitleId} className={classNames.modalBody}>
-            <CreateForm
-              onClose={this._closeModal}
-              onSubmit={this.props.create}
-            />
-          </div>
-        </Modal>
-        <Modal
-          isOpen={showEditModal}
-          onDismiss={this._closeModal}
-          containerClassName={classNames.modalContainer}
-        >
-          <div className={classNames.modalHeader}>
-            <Text variant="xxLarge">Update Phrase</Text>
-          </div>
-          <div className={classNames.modalBody}>
-            <EditForm
-              onClose={this._closeModal}
-              phrase={selectedPhrase}
-              onSubmit={this.props.update}
-            />
-          </div>
-        </Modal>
+        <Suspense fallback={<div>Loading...</div>}>
+          <CreateModal
+            show={showCreateModal}
+            close={this._closeModal}
+            submit={this.props.create}
+          />
+          <EditModal
+            show={showEditModal}
+            close={this._closeModal}
+            submit={this.props.update}
+            phrase={selectedPhrase}
+          />
+        </Suspense>
       </div>
     );
   }

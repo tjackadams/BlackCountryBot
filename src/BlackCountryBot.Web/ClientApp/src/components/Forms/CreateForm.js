@@ -1,7 +1,11 @@
 import React from "react";
 
 import { Formik, Field } from "formik";
-import { CompoundButton, Stack, DefaultButton } from "office-ui-fabric-react";
+import {
+  CompoundButton,
+  DefaultButton
+} from "office-ui-fabric-react/lib/Button";
+import { Stack } from "office-ui-fabric-react/lib/Stack";
 import { FormikTextField } from "formik-office-ui-fabric-react";
 
 import { CreateSchema } from "./Schema";

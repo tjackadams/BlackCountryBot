@@ -1,12 +1,9 @@
-import * as React from "react";
+import React from "react";
 
-import {
-  DefaultPalette,
-  Image,
-  ImageFit,
-  Stack,
-  Text
-} from "office-ui-fabric-react";
+import { DefaultPalette } from "office-ui-fabric-react/lib/Styling";
+import { Image, ImageFit } from "office-ui-fabric-react/lib/Image";
+import { Stack } from "office-ui-fabric-react/lib/Stack";
+import { Text } from "office-ui-fabric-react/lib/Text";
 
 import flag from "./Black_Country_Flag.svg";
 

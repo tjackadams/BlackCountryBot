@@ -1,12 +1,16 @@
 import React from "react";
 
 import { Formik, Field } from "formik";
-import { PrimaryButton, Stack, DefaultButton } from "office-ui-fabric-react";
+import {
+  DefaultButton,
+  PrimaryButton
+} from "office-ui-fabric-react/lib/Button";
+import { Stack } from "office-ui-fabric-react/lib/Stack";
 import { FormikTextField } from "formik-office-ui-fabric-react";
 
 import { EditSchema } from "./Schema";
 
-const EditForm = props => {
+export const EditForm = props => {
   const columnProps = {
     tokens: { childrenGap: 20 }
   };
@@ -85,7 +89,3 @@ const EditForm = props => {
     </div>
   );
 };
-
-EditForm.whyDidYouRender = true;
-
-export { EditForm };
