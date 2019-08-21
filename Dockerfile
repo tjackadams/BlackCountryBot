@@ -51,7 +51,7 @@ WORKDIR /app
 
 # set up node
 ENV NODE_VERSION 11.11.0
-ENV NODE_DOWNLOAD_URL https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz
+ENV NODE_DOWNLOAD_URL https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-arm-pi.tar.gz
 ENV NODE_DOWNLOAD_SHA f749e64a56dc71938fa5d2774b4e53068d19ad9f48b4a62257633b25459bffa6
 
 RUN curl -SL "$NODE_DOWNLOAD_URL" --output nodejs.tar.gz \
