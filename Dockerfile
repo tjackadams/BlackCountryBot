@@ -3,22 +3,18 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
-RUN apt-get update &&  apt-get install -y ca-certificates gnupg2 apt-utils nodejs
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN apt-get update -y && apt-get install yarn -y
+RUN apt-get update -yq && apt-get upgrade -yq && apt-get install -yq curl git nano
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && apt-get install -yq nodejs build-essential
+RUN npm install -g npm@6.11.1 yarn@1.17.3
+
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
 ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
 WORKDIR /src
 
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
-RUN apt-get update &&  apt-get install -y ca-certificates gnupg2 apt-utils nodejs
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN apt-get update -y && apt-get install yarn -y
-
+RUN apt-get update -yq && apt-get upgrade -yq && apt-get install -yq curl git nano
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && apt-get install -yq nodejs build-essential
+RUN npm install -g npm@6.11.1 yarn@1.17.3
 
 # copy csproj and restore as distinct layers
 COPY src/BlackCountryBot.Tweet.Container/BlackCountryBot.Core/BlackCountryBot.Core.csproj src/BlackCountryBot.Tweet.Container/BlackCountryBot.Core/BlackCountryBot.Core.csproj
