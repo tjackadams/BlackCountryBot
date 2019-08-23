@@ -5,6 +5,7 @@ EXPOSE 443
 
 RUN apt-get update -yq && apt-get upgrade -yq && apt-get install -yq curl git nano
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && apt-get install -yq nodejs build-essential
+RUN npm config set unsafe-perm true
 RUN npm install -g npm@6.11.1 yarn@1.17.3
 
 
@@ -14,6 +15,7 @@ WORKDIR /src
 
 RUN apt-get update -yq && apt-get upgrade -yq && apt-get install -yq curl git nano
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && apt-get install -yq nodejs build-essential
+RUN npm config set unsafe-perm true
 RUN npm install -g npm@6.11.1 yarn@1.17.3
 
 # copy csproj and restore as distinct layers
