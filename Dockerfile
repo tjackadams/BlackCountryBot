@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 AS base
+FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.2-stretch-slim-arm32v7 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
@@ -9,7 +9,7 @@ RUN npm config set unsafe-perm true
 RUN npm install -g npm@6.11.1 yarn@1.17.3
 
 
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch-arm32v7 AS build
 ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
 WORKDIR /src
 
