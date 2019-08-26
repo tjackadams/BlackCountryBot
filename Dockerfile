@@ -33,7 +33,7 @@ RUN npm install -g npm@6.11.1 yarn@1.17.3
 COPY src/BlackCountryBot.Tweet.Container/BlackCountryBot.Core/BlackCountryBot.Core.csproj src/BlackCountryBot.Tweet.Container/BlackCountryBot.Core/BlackCountryBot.Core.csproj
 COPY src/BlackCountryBot.Web/BlackCountryBot.Web.csproj src/BlackCountryBot.Web/BlackCountryBot.Web.csproj
 
-RUN dotnet restore "src/BlackCountryBot.Web/BlackCountryBot.Web.csproj"
+RUN dotnet restore "src/BlackCountryBot.Web/BlackCountryBot.Web.csproj" -r linux-arm
 
 # copy and publish app and libraries
 COPY . . 
