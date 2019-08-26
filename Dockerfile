@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/runtime-deps:2.2-stretch-slim-arm32v7 AS base
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
@@ -9,18 +9,18 @@ RUN npm config set unsafe-perm true
 RUN npm install -g npm@6.11.1 yarn@1.17.3
 
 # Install ASP.NET Core
-ENV ASPNETCORE_VERSION 2.2.6
+#ENV ASPNETCORE_VERSION 2.2.6
+#
+#RUN curl -SL --output aspnetcore.tar.gz https://dotnetcli.blob.core.windows.net/dotnet/aspnetcore/Runtime/$ASPNETCORE_VERSION/aspnetcore-runtime-$ASPNETCORE_VERSION-linux-arm.tar.gz \
+    #&& aspnetcore_sha512='349fabb7bf1a2fc68a51d57cc0a12c84a333d98f53ac74338568512e1ec2f3d55fa7ee765cc690fbfa4d0d84a6e8bdc783fa42b60aaf7f65fcfaeb8e14656ef8' \
+    #&& echo "$aspnetcore_sha512  aspnetcore.tar.gz" | sha512sum -c - \
+    #&& mkdir -p /usr/share/dotnet \
+    #&& tar -zxf aspnetcore.tar.gz -C /usr/share/dotnet \
+    #&& rm aspnetcore.tar.gz \
+    #&& ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
 
-RUN curl -SL --output aspnetcore.tar.gz https://dotnetcli.blob.core.windows.net/dotnet/aspnetcore/Runtime/$ASPNETCORE_VERSION/aspnetcore-runtime-$ASPNETCORE_VERSION-linux-arm.tar.gz \
-    && aspnetcore_sha512='349fabb7bf1a2fc68a51d57cc0a12c84a333d98f53ac74338568512e1ec2f3d55fa7ee765cc690fbfa4d0d84a6e8bdc783fa42b60aaf7f65fcfaeb8e14656ef8' \
-    && echo "$aspnetcore_sha512  aspnetcore.tar.gz" | sha512sum -c - \
-    && mkdir -p /usr/share/dotnet \
-    && tar -zxf aspnetcore.tar.gz -C /usr/share/dotnet \
-    && rm aspnetcore.tar.gz \
-    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
 
-
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch-arm32v7 AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
 ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
 WORKDIR /src
 
