@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Tweetinvi;
 
-namespace BlackCountryBot.Worker
+namespace Function
 {
     public class FunctionHandler
     {
