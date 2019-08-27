@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using BlackCountryBot.Core.Features.Phrases;
 using BlackCountryBot.Core.Infrastructure;
 using BlackCountryBot.Core.Models.Phrases;
 using MediatR;
@@ -14,10 +14,12 @@ namespace BlackCountryBot.Worker
 {
     public class FunctionHandler
     {
-        private static readonly Random Random = new Random(Guid.NewGuid().GetHashCode());
         private static readonly IConfiguration Configuration = new ConfigurationBuilder()
+                    .AddJsonFile("appsettings.json", false, true)
+                    .AddJsonFile("appsettings.secrets.json", false, true)
                     .AddEnvironmentVariables()
                     .Build();
+
         public string Handle(string _)
         {
             try
@@ -30,28 +32,13 @@ namespace BlackCountryBot.Worker
                 {
                     ILoggerFactory loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
                     ILogger logger = loggerFactory.CreateLogger("Tweet Function");
+                    IMediator mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
                     try
                     {
                         logger.LogInformation("begin execution");
 
-                        IRepository<Phrase> repo = scope.ServiceProvider.GetRequiredService<IRepository<Phrase>>();
-
-                        logger.LogInformation("getting 10 unloved tweets.");
-
-                        var lastTen = repo.GetAll()
-                            .Where(p => !p.LastTweetTime.HasValue || p.LastTweetTime < DateTimeOffset.UtcNow.AddDays(-7))
-                            .OrderBy(p => p.NumberOfTweets)
-                            .Take(10)
-                            .ToList();
-
-                        Phrase phrase = lastTen[Random.Next(lastTen.Count)];
-
-                        logger.LogInformation("the chosen phrase {@Phrase}", phrase);
-
-
-                        Tweet.PublishTweet(phrase.Tweet());
-                        repo.Update(phrase);
+                        mediator.Send(new SubmitRandomTweet.Command()).Wait();
                     }
                     catch (Exception ex)
                     {

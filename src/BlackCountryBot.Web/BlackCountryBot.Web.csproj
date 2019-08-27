@@ -8,8 +8,6 @@
     <SpaRoot>ClientApp\</SpaRoot>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
     <UserSecretsId>3bc55a89-1e00-44eb-b736-821d2e02bce8</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -53,7 +51,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlackCountryBot.Tweet.Container\BlackCountryBot.Core\BlackCountryBot.Core.csproj" />
+    <ProjectReference Include="..\BlackCountryBot.Tweet\BlackCountryBot.Core\BlackCountryBot.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.secrets.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using BlackCountryBot.Core.Infrastructure;
@@ -11,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Tweetinvi;
-using Tweetinvi.Parameters;
 
 namespace BlackCountryBot.Core.Features.Phrases
 {
@@ -30,7 +28,7 @@ namespace BlackCountryBot.Core.Features.Phrases
         {
             private static readonly Random Random = new Random(Guid.NewGuid().GetHashCode());
             private readonly IRepository<Phrase> _repository;
-           
+
             public Handler(ILogger<SubmitRandomTweet> logger, IRepository<Phrase> repository)
             {
                 Logger = logger ?? NullLogger<SubmitRandomTweet>.Instance;
@@ -43,7 +41,7 @@ namespace BlackCountryBot.Core.Features.Phrases
             {
                 TweetinviConfig.CurrentThreadSettings.TweetMode = TweetMode.Extended;
 
-                var lastTen = await _repository.GetAll()
+                List<Phrase> lastTen = await _repository.GetAll()
                     .Where(p => !p.LastTweetTime.HasValue || p.LastTweetTime < DateTimeOffset.UtcNow.AddDays(-7))
                     .OrderBy(p => p.NumberOfTweets)
                     .Take(10)
@@ -57,8 +55,8 @@ namespace BlackCountryBot.Core.Features.Phrases
                 Phrase phrase = lastTen[Random.Next(lastTen.Count)];
 
                 Logger.LogInformation("todays chosen tweet {@Tweet}", phrase);
-              
-                if(phrase.IsTweetTooLong)
+
+                if (phrase.IsTweetTooLong)
                 {
                     Logger.LogError("tweet too long! {TweetLength}", phrase.Tweet().Length);
                     return new Result { Phrase = null };
@@ -73,7 +71,7 @@ namespace BlackCountryBot.Core.Features.Phrases
                 {
                     Logger.LogError(ex, ex.Message);
                     return new Result { Phrase = null };
-                }               
+                }
 
                 return new Result
                 {

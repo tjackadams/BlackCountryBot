@@ -51,6 +51,8 @@ namespace BlackCountryBot.Web
                 .CaptureStartupErrors(false)
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
+                    config.AddJsonFile("appsettings.json", false, true);
+                    config.AddJsonFile("appsettings.secrets.json", false, true);
                     config.AddEnvironmentVariables();
                 })
                 .UseStartup<Startup>();

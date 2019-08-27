@@ -4,15 +4,12 @@ provider:
   gateway: http://192.168.0.70:31112
 functions:
   blackcountrybot:
-    lang: dockerfile
-    handler: ./src/BlackCountryBot.Tweet.Container
+    lang: csharp-armhf
+    handler: ./src/BlackCountryBot.Tweet
     image: tjackadams/blackcountrybot:latest
     environment:
         read_timeout: 30s
         write_timeout: 30s
         upstream_timeout: 25s        
-    environment_file:
-        - blackcountrybot.Development.yml
-    annotations:
-        topic: cron-functions
-        schedule: "0 8,18 * * *"
+    secrets:
+    - blackcountrybot-secrets

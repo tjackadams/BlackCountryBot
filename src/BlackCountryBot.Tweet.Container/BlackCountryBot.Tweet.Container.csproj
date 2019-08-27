@@ -17,8 +17,4 @@
     <None Remove="BlackCountryBot.Tweet\**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="BlackCountryBot.Tweet\BlackCountryBot.Tweet.csproj" />
-  </ItemGroup>
-
 </Project>
