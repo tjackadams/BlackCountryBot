@@ -351,3 +351,4 @@ build/
 **/appsettings.staging.json
 **/appsettings.production.json
 **/appsettings.secrets.json
+**/stack.Development.yml
