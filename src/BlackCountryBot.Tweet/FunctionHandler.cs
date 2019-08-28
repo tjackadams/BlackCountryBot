@@ -26,7 +26,7 @@ namespace Function
             try
             {
                 TweetinviConfig.CurrentThreadSettings.TweetMode = TweetMode.Extended;
-                throw new TypeInitializationException("", new Exception());
+
                 IServiceProvider serviceProvider = BuildServiceProvider();
                 using (IServiceScope scope = serviceProvider.CreateScope())
                 {
