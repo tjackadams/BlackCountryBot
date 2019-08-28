@@ -67,7 +67,7 @@ namespace Function
         private static IServiceProvider BuildServiceProvider()
         {
             Auth.SetUserCredentials(
-                Configuration["consumerKey"],
+                 Configuration["consumerKey"],
                  Configuration["consumerSecret"],
                  Configuration["userAccessToken"],
                  Configuration["userAccessSecret"]);
