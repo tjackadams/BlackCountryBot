@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using BlackCountryBot.Core.Features.Phrases;
 using BlackCountryBot.Core.Infrastructure;
 using BlackCountryBot.Core.Models.Phrases;
@@ -25,9 +26,8 @@ namespace Function
             try
             {
                 TweetinviConfig.CurrentThreadSettings.TweetMode = TweetMode.Extended;
-
+                throw new TypeInitializationException("", new Exception());
                 IServiceProvider serviceProvider = BuildServiceProvider();
-
                 using (IServiceScope scope = serviceProvider.CreateScope())
                 {
                     ILoggerFactory loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
@@ -42,16 +42,17 @@ namespace Function
                     }
                     catch (Exception ex)
                     {
-                        return FormatException(ex);
+                        logger.LogError(ex, ex.Message);
+                        return ex.ToStringDemystified();
                     }
+
+                    return "Ran to completion";
                 }
             }
             catch (Exception ex)
             {
-                return FormatException(ex);
+                return ex.ToStringDemystified();
             }
-
-            return "Ran to completion";
         }
 
         private static string FormatException(Exception ex)
