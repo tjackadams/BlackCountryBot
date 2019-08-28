@@ -17,7 +17,7 @@ namespace Function
     {
         private static readonly IConfiguration Configuration = new ConfigurationBuilder()
                     .AddJsonFile("appsettings.json", false, true)
-                    .AddJsonFile("appsettings.secrets.json", false, true)
+                    .AddJsonFile(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development" ? "appsettings.secrets.json" : "/var/openfaas/secrets/appsettings.secrets.json", false, true)
                     .AddEnvironmentVariables()
                     .Build();
 
