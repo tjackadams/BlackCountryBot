@@ -19,7 +19,7 @@ WORKDIR /src/src/BlackCountryBot.Web
 RUN dotnet publish -c Release -o /app -r linux-arm
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-stretch-slim-arm32v7 AS runtime
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 AS runtime
 WORKDIR /app
 
 RUN apt-get update -yq && apt-get upgrade -yq && apt-get install -yq curl git apt-utils
