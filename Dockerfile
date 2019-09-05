@@ -22,7 +22,7 @@ WORKDIR /src/src/BlackCountryBot.Web
 RUN dotnet publish -c Release -o /app -r linux-arm
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 AS runtime
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-stretch-slim-arm32v7 AS runtime
 WORKDIR /app
 
 COPY --from=qemu /usr/bin/qemu-arm-static /usr/bin/qemu-arm-static 
