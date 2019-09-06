@@ -70,7 +70,7 @@ namespace BlackCountryBot.Web.HostedServices
 
         public void Dispose()
         {
-            
+
         }
     }
 }

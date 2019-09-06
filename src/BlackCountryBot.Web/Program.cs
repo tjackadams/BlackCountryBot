@@ -1,5 +1,4 @@
 using System;
-using BlackCountryBot.Core.Infrastructure;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
