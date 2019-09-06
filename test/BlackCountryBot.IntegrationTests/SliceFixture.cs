@@ -53,7 +53,7 @@ namespace BlackCountryBot.IntegrationTests
             await context.Database.EnsureDeletedAsync();
 
             await new BlackCountryDbContextSeed()
-            .SeedAsync(context, NullLogger<BlackCountryDbContextSeed>.Instance);
+            .SeedAsync(context, NullLogger<BlackCountryDbContext>.Instance);
         }
 
         public static Task<TResponse> SendAsync<TResponse>(IRequest<TResponse> request)

@@ -24,6 +24,20 @@ spec:
         - name: secrets
           mountPath: /app/secrets
           readOnly: true
+        livenessProbe:
+          httpGet:
+            path: /self
+            port: 80
+            scheme: httpGet
+          initialDelaySeconds: 10
+          periodSeconds: 15
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 80
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 15
       volumes:
       - name: secrets
         secret:

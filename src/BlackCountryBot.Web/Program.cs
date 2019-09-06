@@ -21,15 +21,6 @@ namespace BlackCountryBot.Web
 
                 try
                 {
-                    logger.LogInformation("Applying migrations ({ApplicationContext})...", AppName);
-                    host.MigrateDbContext<BlackCountryDbContext>((context, sp) =>
-                    {
-                        ILogger<BlackCountryDbContextSeed> seedLogger = sp.GetRequiredService<ILogger<BlackCountryDbContextSeed>>();
-                        new BlackCountryDbContextSeed()
-                        .SeedAsync(context, seedLogger)
-                        .Wait();
-                    });
-
                     logger.LogInformation("Starting web host ({ApplicationContext})...", AppName);
                     host.Run();
 

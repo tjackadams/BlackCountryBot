@@ -5,12 +5,15 @@ using AutoMapper;
 using BlackCountryBot.Core.Features.Phrases;
 using BlackCountryBot.Core.Infrastructure;
 using BlackCountryBot.Core.Models.Phrases;
+using BlackCountryBot.Web.HealthChecks;
+using BlackCountryBot.Web.HostedServices;
 using BlackCountryBot.Web.Hubs;
 using DryIoc;
 using DryIoc.Microsoft.DependencyInjection;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -68,10 +71,17 @@ namespace BlackCountryBot.Web
                 configuration.RootPath = "ClientApp/build";
             });
 
+            services.AddHostedService<StartupHostedService<BlackCountryDbContext>>();
+            services.AddSingleton<StartupHostedServiceHealthCheck>();
+            services.AddScoped(typeof(IDbContextSeed<BlackCountryDbContext>), typeof(BlackCountryDbContextSeed));
             services.AddScoped(typeof(IDbContextProvider<>), typeof(DbContextProvider<>));
             services.AddScoped<IRepository<Phrase>, Repository<BlackCountryDbContext, Phrase>>(
                 sp => new Repository<BlackCountryDbContext, Phrase>(sp.GetRequiredService<IDbContextProvider<BlackCountryDbContext>>()));
 
+            // health checks
+            services.AddHealthChecks()
+                .AddCheck<StartupHostedServiceHealthCheck>("self")
+                .AddDbContextCheck<BlackCountryDbContext>(tags: new[] { "services" });
 
             return new Container(rules =>
                     // optional: Enables property injection for Controllers
@@ -109,6 +119,16 @@ namespace BlackCountryBot.Web
             app.UseSignalR(routes =>
             {
                 routes.MapHub<PhrasesHub>("/hub/phrases");
+            });
+
+            app.UseHealthChecks("/self", new HealthCheckOptions
+            {
+                Predicate = r => r.Name.Contains("self")
+            });
+
+            app.UseHealthChecks("/ready", new HealthCheckOptions
+            {
+                Predicate = r => r.Tags.Contains("services")
             });
 
             app.UseSpa(spa =>

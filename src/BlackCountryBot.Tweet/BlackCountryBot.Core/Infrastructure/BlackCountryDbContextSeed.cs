@@ -7,9 +7,9 @@ using Microsoft.Extensions.Logging;
 
 namespace BlackCountryBot.Core.Infrastructure
 {
-    public class BlackCountryDbContextSeed
+    public class BlackCountryDbContextSeed : IDbContextSeed<BlackCountryDbContext>
     {
-        public async Task SeedAsync(BlackCountryDbContext context, ILogger<BlackCountryDbContextSeed> logger, int? retry = 0)
+        public async Task SeedAsync(BlackCountryDbContext context, ILogger<BlackCountryDbContext> logger, int? retry = 0)
         {
             int retryForAvailability = retry.Value;
 
