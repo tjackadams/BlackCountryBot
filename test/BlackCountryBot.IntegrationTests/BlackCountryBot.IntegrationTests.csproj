@@ -6,6 +6,7 @@
     <IsPackable>false</IsPackable>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
 
   <ItemGroup>
