@@ -28,7 +28,7 @@ spec:
           httpGet:
             path: /self
             port: 80
-            scheme: httpGet
+            scheme: HTTP
           initialDelaySeconds: 10
           periodSeconds: 15
         readinessProbe:
