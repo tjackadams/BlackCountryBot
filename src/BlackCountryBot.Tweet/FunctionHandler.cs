@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Tweetinvi;
 
 namespace Function
@@ -53,16 +52,6 @@ namespace Function
             {
                 return ex.ToStringDemystified();
             }
-        }
-
-        private static string FormatException(Exception ex)
-        {
-            return JsonConvert.SerializeObject(new
-            {
-                message = ex.Message,
-                exception = ex.GetType().Name,
-                stackTrace = ex.StackTrace
-            });
         }
 
         private static IServiceProvider BuildServiceProvider()

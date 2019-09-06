@@ -67,10 +67,10 @@ namespace BlackCountryBot.IntegrationTests
         }
         public static async Task<T> ExecuteScopeAsync<T>(Func<IServiceProvider, Task<T>> action)
         {
+#pragma warning disable IDE0063 // Use simple 'using' statement
             using (IServiceScope scope = _scopeFactory.CreateScope())
+#pragma warning restore IDE0063 // Use simple 'using' statement
             {
-                BlackCountryDbContext dbContext = scope.ServiceProvider.GetService<BlackCountryDbContext>();
-
                 T result = await action(scope.ServiceProvider).ConfigureAwait(false);
 
                 return result;

@@ -1,11 +1,11 @@
 ﻿namespace Function.Console
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] _)
         {
             string buffer = "hi";
-            FunctionHandler f = new FunctionHandler();
+            var f = new FunctionHandler();
 
             string responseValue = f.Handle(buffer);
 
