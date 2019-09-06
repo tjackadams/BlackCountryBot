@@ -3,18 +3,23 @@ FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
 ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
 WORKDIR /src
 
-COPY --from=qemu /usr/bin/qemu-arm-static /usr/bin/qemu-arm-static 
-RUN apt-get update -yq && apt-get upgrade -yq && apt-get install -yq curl git apt-utils
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && apt-get install -yq nodejs build-essential
+RUN apt-get update -yq && apt-get install -yq curl git apt-utils
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && apt-get install -yq nodejs
 RUN npm config set unsafe-perm true
 RUN npm install -g npm@6.11.1 yarn@1.17.3
-RUN rm -f /usr/bin/qemu-arm-static
 
 # copy csproj and restore as distinct layers
 COPY src/BlackCountryBot.Tweet/BlackCountryBot.Core/BlackCountryBot.Core.csproj src/BlackCountryBot.Tweet/BlackCountryBot.Core/BlackCountryBot.Core.csproj
 COPY src/BlackCountryBot.Web/BlackCountryBot.Web.csproj src/BlackCountryBot.Web/BlackCountryBot.Web.csproj
+COPY src/BlackCountryBot.Web/ClientApp/package.json src/BlackCountryBot.Web/ClientApp/package.json
+COPY src/BlackCountryBot.Web/ClientApp/yarn.lock src/BlackCountryBot.Web/ClientApp/yarn.lock
 
 RUN dotnet restore "src/BlackCountryBot.Web/BlackCountryBot.Web.csproj"
+
+WORKDIR /src/src/BlackCountryBot.Web/ClientApp
+RUN yarn install --frozen-lockfile --no-cache --production
+
+WORKDIR /src
 
 # copy and publish app and libraries
 COPY . . 
@@ -26,8 +31,8 @@ FROM mcr.microsoft.com/dotnet/core/aspnet:2.2-stretch-slim-arm32v7 AS runtime
 WORKDIR /app
 
 COPY --from=qemu /usr/bin/qemu-arm-static /usr/bin/qemu-arm-static 
-RUN apt-get update -yq && apt-get upgrade -yq && apt-get install -yq curl git apt-utils
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && apt-get install -yq nodejs build-essential
+RUN apt-get update -yq && apt-get install -yq curl git apt-utils
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && apt-get install -yq nodejs
 RUN npm config set unsafe-perm true
 RUN npm install -g npm@6.11.1 yarn@1.17.3
 RUN rm -f /usr/bin/qemu-arm-static

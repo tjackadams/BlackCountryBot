@@ -25,29 +25,9 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
-    <Compile Remove="ClientApp\build\**" />
     <Content Remove="$(SpaRoot)**" />
-    <Content Remove="ClientApp\build\**" />
-    <EmbeddedResource Remove="ClientApp\build\**" />
     <None Remove="$(SpaRoot)**" />
-    <None Remove="ClientApp\build\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="ClientApp\build\asset-manifest.json" />
-    <None Remove="ClientApp\build\favicon.ico" />
-    <None Remove="ClientApp\build\index.html" />
-    <None Remove="ClientApp\build\manifest.json" />
-    <None Remove="ClientApp\build\precache-manifest.0d8c95624c375e3d1a154feaf7531c25.js" />
-    <None Remove="ClientApp\build\service-worker.js" />
-    <None Remove="ClientApp\build\static\js\2.56633a36.chunk.js" />
-    <None Remove="ClientApp\build\static\js\2.56633a36.chunk.js.map" />
-    <None Remove="ClientApp\build\static\js\main.06ce2da5.chunk.js" />
-    <None Remove="ClientApp\build\static\js\main.06ce2da5.chunk.js.map" />
-    <None Remove="ClientApp\build\static\js\runtime~main.a8a9905a.js" />
-    <None Remove="ClientApp\build\static\js\runtime~main.a8a9905a.js.map" />
-    <None Remove="ClientApp\build\static\media\Black_Country_Flag.a076a900.svg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,7 +52,7 @@
 
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
-    <Exec WorkingDirectory="$(SpaRoot)" Command="yarn install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="yarn install --frozen-lockfile --no-cache --production" />
     <Exec WorkingDirectory="$(SpaRoot)" Command="yarn run build" />
 
     <!-- Include the newly-built files in the publish output -->
