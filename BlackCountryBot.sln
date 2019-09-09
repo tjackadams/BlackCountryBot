@@ -19,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		blackcountrybot-web-deployment.yml = blackcountrybot-web-deployment.yml
 		blackcountrybot-web-ingress.yaml = blackcountrybot-web-ingress.yaml
 		blackcountrybot-web-service.yml = blackcountrybot-web-service.yml
+		Directory.Build.props = Directory.Build.props
 		Dockerfile = Dockerfile
 		GitVerson.yml = GitVerson.yml
 		global.json = global.json
@@ -30,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackCountryBot.Core", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Function", "src\BlackCountryBot.Tweet\Function.csproj", "{B62ADBA7-86C6-4DC0-8F0B-8FE4FF01CBFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Function.Console", "src\Function.Console\Function.Console.csproj", "{749BF7C1-A027-43EB-93D2-74D307F698F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Function.Console", "src\Function.Console\Function.Console.csproj", "{749BF7C1-A027-43EB-93D2-74D307F698F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
