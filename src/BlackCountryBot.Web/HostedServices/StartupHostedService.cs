@@ -42,8 +42,6 @@ namespace BlackCountryBot.Web.HostedServices
                     dbLogger.LogInformation("Migrating database associated with context {DbContextName}", typeof(TDbContext).Name);
 
                     await InvokeSeeder(seeder, context, dbLogger);
-
-                    await Task.Delay(30000);
                 }
                 catch (Exception ex)
                 {
