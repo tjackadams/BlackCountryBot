@@ -13,11 +13,10 @@ spec:
     metadata:
       labels:
         app: blackcountrybot-web
-        version: latest
     spec:
       containers:
       - name: blackcountrybot-web
-        image: tjackadams/blackcountrybot-web
+        image: tjackadams/blackcountrybot-web:latest
         ports:
           - containerPort: 80
         volumeMounts:
