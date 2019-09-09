@@ -18,13 +18,11 @@ steps:
   displayName: Restore
   inputs:
     command: restore
-    projects: '**/*.csproj'
     configuration: '$(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
-    projects: '**/*.csproj'
     configuration: '$(buildConfiguration)'
     buildProperties: '$(buildPlatform)'
 
