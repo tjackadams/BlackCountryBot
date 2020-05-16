@@ -1,1 +1,0 @@
-((Get-Content -Path $(Build.ArtifactStagingDirectory)/blackcountrybot-web-deployment.yml -Raw) -replace "version: latest", "version: $GitVersion.SemVer") | Set-Content -Path $(Build.ArtifactStagingDirectory)/blackcountrybot-web-deployment.yml

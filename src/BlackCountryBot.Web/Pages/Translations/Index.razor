@@ -1,0 +1,44 @@
+﻿@page "/translations"
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnDesktop">
+        <SpinLoader IsLoading="@(Data == null)">
+            <ContentTemplate>
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHeaderCell>#</TableHeaderCell>
+                            <TableHeaderCell>OriginalPhrase</TableHeaderCell>
+                            <TableHeaderCell>TranslatedPhrase</TableHeaderCell>
+                            <TableHeaderCell>No. Tweets</TableHeaderCell>
+                            <TableHeaderCell></TableHeaderCell>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        @foreach (var item in Data)
+                        {
+                            <TableRow>
+                                <TableRowHeader>
+                                    <Display For="() => item.Id" />
+                                </TableRowHeader>
+                                <TableRowCell>
+                                    <Display For="() => item.OriginalPhrase" />
+                                </TableRowCell>
+                                <TableRowCell>
+                                    <Display For="() => item.TranslatedPhrase" />
+                                </TableRowCell>
+                                <TableRowCell>
+                                    <Display For="() => item.TweetCount" />
+                                </TableRowCell>
+                                <TableRowCell>
+                                    <a href="translations/edit/@item.Id">Edit</a> |
+                                    <a href="translations/delete/@item.Id">Delete</a>
+                                </TableRowCell>
+                            </TableRow>
+                        }
+                    </TableBody>
+                </Table>
+            </ContentTemplate>
+        </SpinLoader>
+    </Column>
+</Row>

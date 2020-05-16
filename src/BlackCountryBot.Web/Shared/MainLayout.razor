@@ -1,0 +1,57 @@
+﻿@inherits LayoutComponentBase
+
+<Layout Sider="true">
+    <LayoutSider>
+        <LayoutSiderContent>
+            <Sidebar @ref="sidebar">
+                <SidebarContent>
+                    <SidebarBrand>
+                        <a href="/">Twitter Bot</a>
+                    </SidebarBrand>
+                    <SidebarNavigation>
+                        <SidebarItem>
+                            <SidebarLink To="/translations" Title="Translations">
+                                <Icon Name="IconName.Person" Margin="Margin.Is3.FromRight" />Translations
+                            </SidebarLink>
+                        </SidebarItem>
+                    </SidebarNavigation>
+                </SidebarContent>
+            </Sidebar>
+        </LayoutSiderContent>
+    </LayoutSider>
+    <Layout>
+        <LayoutHeader>
+            <Bar Style="height: 64px;" Breakpoint="Breakpoint.Desktop" Background="Background.Dark" ThemeContrast="ThemeContrast.Dark">
+                <BarBrand>
+                    <BarItem>
+                        <BarLink To="">
+                            Twitter Bot
+                        </BarLink>
+                    </BarItem>
+                </BarBrand>
+                <BarToggler Clicked="@ToggleSidebar">
+                </BarToggler>
+                <BarMenu>
+                    <BarEnd>
+                        <BarItem>
+                            <BarLink To="https://github.com/tjackadams/BlackCountryBot">GitHub</BarLink>
+                        </BarItem>
+                    </BarEnd>
+                </BarMenu>
+            </Bar>
+        </LayoutHeader>
+        <LayoutContent Padding="Padding.Is4.OnX">
+            @Body
+        </LayoutContent>
+    </Layout>
+</Layout>
+
+@code{
+
+    Sidebar sidebar;
+
+    void ToggleSidebar()
+    {
+        sidebar.Toggle();
+    }
+}

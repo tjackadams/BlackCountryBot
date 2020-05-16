@@ -1,6 +1,0 @@
-bin/
-obj/
-.nuget/
-.dotnet/
-.templateengine/
-**/appsettings.secrets.json

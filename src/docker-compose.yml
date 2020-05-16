@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+
+  seq:
+    image: datalust/seq:latest
+
+  sqldata:
+    image: mcr.microsoft.com/mssql/server:2017-latest 
+
+  web:
+    image: ${REGISTRY:-blackcountry}/web:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: BlackCountryBot.Web/Dockerfile
+    depends_on:
+      - sqldata

@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+
+  seq:
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - "5340:80"
+
+  sqldata:
+    environment:
+      - SA_PASSWORD=Pass@word
+      - ACCEPT_EULA=Y
+    ports:
+      - "5433:1433"
+    volumes:
+      - blackcountry-sqldata:/var/opt/mssql
+
+  web:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ConnectionString=${BLACKCOUNTRY_AZURE_IDENTITY_DB:-Server=sqldata;Database=BlackCountryDb;User Id=sa;Password=Pass@word}
+      - OrchestratorType=${ORCHESTRATOR_TYPE}
+    ports:
+      - "5100:80"
+volumes:
+  blackcountry-sqldata:
+    external: false
