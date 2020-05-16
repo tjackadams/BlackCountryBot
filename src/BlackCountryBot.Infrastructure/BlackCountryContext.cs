@@ -41,8 +41,8 @@ namespace BlackCountryBot.Infrastructure
 
                 e.Property(p => p.Id).HasColumnName("TranslationId");
 
-                e.Property(p => p.OriginalPhrase).IsRequired().HasMaxLength(240);
-                e.Property(p => p.TranslatedPhrase).IsRequired().HasMaxLength(240);
+                e.Property(p => p.OriginalPhrase).IsRequired().HasMaxLength(120);
+                e.Property(p => p.TranslatedPhrase).IsRequired().HasMaxLength(120);
             });
         }
 

@@ -2,14 +2,23 @@
 
 <Row>
     <Column ColumnSize="ColumnSize.IsFull.OnDesktop">
+        
+        <Heading Size="HeadingSize.Is2">
+            Translations
+        </Heading>
+        
+        <p>
+            <a href="/translations/create">Create New Translation</a>
+        </p>
+
         <SpinLoader IsLoading="@(Data == null)">
             <ContentTemplate>
                 <Table>
                     <TableHeader>
                         <TableRow>
                             <TableHeaderCell>#</TableHeaderCell>
-                            <TableHeaderCell>OriginalPhrase</TableHeaderCell>
-                            <TableHeaderCell>TranslatedPhrase</TableHeaderCell>
+                            <TableHeaderCell>Original</TableHeaderCell>
+                            <TableHeaderCell>Translated</TableHeaderCell>
                             <TableHeaderCell>No. Tweets</TableHeaderCell>
                             <TableHeaderCell></TableHeaderCell>
                         </TableRow>
@@ -19,16 +28,16 @@
                         {
                             <TableRow>
                                 <TableRowHeader>
-                                    <Display For="() => item.Id" />
+                                    @item.Id   
                                 </TableRowHeader>
                                 <TableRowCell>
-                                    <Display For="() => item.OriginalPhrase" />
+                                    @item.OriginalPhrase
                                 </TableRowCell>
                                 <TableRowCell>
-                                    <Display For="() => item.TranslatedPhrase" />
+                                    @item.TranslatedPhrase
                                 </TableRowCell>
                                 <TableRowCell>
-                                    <Display For="() => item.TweetCount" />
+                                    @item.TweetCount
                                 </TableRowCell>
                                 <TableRowCell>
                                     <a href="translations/edit/@item.Id">Edit</a> |

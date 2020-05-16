@@ -1,0 +1,62 @@
+﻿@page "/translations/create"
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnDesktop">
+
+        <Heading Size="HeadingSize.Is2">
+            Create
+        </Heading>
+
+        <SpinLoader IsLoading="@(Data == null)">
+            <ContentTemplate>
+                <Heading Size="HeadingSize.Is4">
+                    Translation
+                </Heading>
+                <hr />
+
+                <Form>
+                    <Validations Mode="ValidationMode.Manual" @ref="Validations" Model="@Data">
+
+                        <Validation>
+                            <Field Horizontal="true">
+                                <FieldLabel ColumnSize="ColumnSize.Is3">Original</FieldLabel>
+                                <FieldBody ColumnSize="ColumnSize.Is9">
+
+                                    <MemoEdit Rows="5" @bind-Text="@Data.OriginalPhrase">
+                                        <Feedback>
+                                            <ValidationError />
+                                        </Feedback>
+                                    </MemoEdit>
+                                </FieldBody>
+                            </Field>
+                        </Validation>
+
+                        <Validation>
+                            <Field Horizontal="true">
+                                <FieldLabel ColumnSize="ColumnSize.Is3">Translation</FieldLabel>
+                                <FieldBody ColumnSize="ColumnSize.Is9">
+                                    <MemoEdit Rows="5" @bind-Text="@Data.TranslatedPhrase">
+                                        <Feedback>
+                                            <ValidationError />
+                                        </Feedback>
+                                    </MemoEdit>
+                                </FieldBody>
+                            </Field>
+                        </Validation>
+                    </Validations>
+
+                    <Row>
+                        <Column ColumnSize="ColumnSize.Is4.WithOffset">
+                            <Button Color="Color.Primary" Clicked="@OnSubmitAsync">Create</Button>
+                        </Column>
+                    </Row>
+                </Form>
+            </ContentTemplate>
+        </SpinLoader>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnDesktop">
+        <a href="/translations">Back to List</a>
+    </Column>
+</Row>

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using DryIoc;
 using Microsoft.EntityFrameworkCore;
 using DryIoc.Microsoft.DependencyInjection;
 using Blazorise;
@@ -70,7 +69,9 @@ namespace BlackCountryBot.Web
     {
         public static IServiceCollection AddCustomMvc(this IServiceCollection services)
         {
-            services.AddRazorPages();
+            services
+                .AddRazorPages();
+
             services.AddServerSideBlazor();
 
             services
