@@ -11,42 +11,33 @@
             <a href="/translations/create">Create New Translation</a>
         </p>
 
-        <SpinLoader IsLoading="@(Data == null)">
+        <SpinLoader IsLoading="@(Data == null)" >
             <ContentTemplate>
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHeaderCell>#</TableHeaderCell>
-                            <TableHeaderCell>Original</TableHeaderCell>
-                            <TableHeaderCell>Translation</TableHeaderCell>
-                            <TableHeaderCell>No. Tweets</TableHeaderCell>
-                            <TableHeaderCell></TableHeaderCell>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        @foreach (var item in Data)
-                        {
-                            <TableRow>
-                                <TableRowHeader>
-                                    @item.Id   
-                                </TableRowHeader>
-                                <TableRowCell>
-                                    @item.OriginalPhrase
-                                </TableRowCell>
-                                <TableRowCell>
-                                    @item.TranslatedPhrase
-                                </TableRowCell>
-                                <TableRowCell>
-                                    @item.TweetCount
-                                </TableRowCell>
-                                <TableRowCell>
-                                    <a href="translations/edit/@item.Id">Edit</a> |
-                                    <a href="translations/delete/@item.Id">Delete</a>
-                                </TableRowCell>
-                            </TableRow>
-                        }
-                    </TableBody>
-                </Table>
+                
+                <DataGrid TItem="Result.TranslationModel"
+                          Data="@Data"
+                          Sortable="true"
+                          Filterable="true"
+                          ShowPager="true"
+                          PageSize="10">
+                    <DataGridColumns>
+                        <DataGridColumn TItem="Result.TranslationModel" Field="@nameof(Result.TranslationModel.Id)" Caption="#" Filterable="false"/>
+                        <DataGridColumn TItem="Result.TranslationModel" Field="@nameof(Result.TranslationModel.OriginalPhrase)" Caption="Original" Sortable="false"/>
+                        <DataGridColumn TItem="Result.TranslationModel" Field="@nameof(Result.TranslationModel.TranslatedPhrase)" Caption="Translated" Sortable="false"/>
+                        <DataGridColumn TItem="Result.TranslationModel" Field="@nameof(Result.TranslationModel.TweetCount)" Caption="No. Tweets" Filterable="false"/>
+                        <DataGridColumn TItem="Result.TranslationModel" Field="@nameof(Result.TranslationModel.Id)" Sortable="false" Filterable="false">
+                            <DisplayTemplate>
+                                @{
+                                    var id = (context as Result.TranslationModel)?.Id;
+                                }
+
+                                <a href="translations/edit/@id">Edit</a> |
+                                <a href="translations/delete/@id">Delete</a>
+                            </DisplayTemplate>
+
+                        </DataGridColumn>
+                    </DataGridColumns>
+                </DataGrid>
             </ContentTemplate>
         </SpinLoader>
     </Column>
